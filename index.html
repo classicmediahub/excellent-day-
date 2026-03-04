@@ -1066,6 +1066,213 @@ body {
 }
 .votd-share-btn:hover { background: rgba(200,168,74,0.2); transform: translateY(-1px); }
 .votd-share-btn svg { width: 13px; height: 13px; }
+
+/* ══════════════════════════════════════
+   BRAND BUTTON (logo trigger)
+══════════════════════════════════════ */
+button.brand {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 6px 4px 0; border-radius: 10px;
+  transition: background 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+button.brand:hover { background: var(--accent-bg); }
+button.brand:active { transform: scale(0.97); }
+
+.brand-mark {
+  position: relative; overflow: hidden;
+}
+/* Hamburger bars inside brand-mark */
+.menu-bars {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+  opacity: 1; transition: opacity 0.2s;
+}
+.menu-bars span {
+  display: block; width: 14px; height: 1.8px;
+  background: var(--gold); border-radius: 2px;
+  transition: all 0.3s ease;
+}
+/* X icon hidden by default */
+.brand-cross {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 7px; opacity: 0; transition: opacity 0.2s;
+}
+/* When menu is open */
+.menu-open .menu-bars { opacity: 0; }
+.menu-open .brand-cross { opacity: 1; }
+.menu-open button.brand .brand-sub { content: 'Close menu'; }
+
+/* ══════════════════════════════════════
+   MENU OVERLAY
+══════════════════════════════════════ */
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.45); backdrop-filter: blur(3px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+.menu-overlay.show { opacity: 1; pointer-events: all; }
+
+/* ══════════════════════════════════════
+   SIDE MENU PANEL
+══════════════════════════════════════ */
+.side-menu {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: min(320px, 88vw); z-index: 3100;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  box-shadow: 6px 0 40px rgba(0,0,0,0.25);
+  transform: translateX(-100%);
+  transition: transform 0.36s cubic-bezier(0.34, 1.2, 0.64, 1);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.side-menu.show { transform: translateX(0); }
+
+/* ── Menu Header ── */
+.sm-header {
+  padding: 52px 22px 22px;
+  background: #2A3B30;
+  position: relative; flex-shrink: 0;
+}
+[data-theme="dark"] .sm-header { background: #141C20; border-bottom: 1px solid rgba(90,138,120,0.2); }
+
+.sm-emblem {
+  width: 54px; height: 54px; border-radius: 14px;
+  background: rgba(200,168,74,0.12);
+  border: 1px solid rgba(200,168,74,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px; position: relative;
+}
+.sm-cross {
+  width: 22px; height: 22px; position: relative;
+}
+.sm-cross::before, .sm-cross::after {
+  content: ''; position: absolute; background: #C8A84A; border-radius: 2px;
+}
+.sm-cross::before { width: 3px; height: 22px; left: 10px; top: 0; }
+.sm-cross::after  { width: 18px; height: 3px; left: 2px; top: 7px; }
+
+.sm-title {
+  font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700;
+  color: #E8C060; letter-spacing: 0.06em; margin-bottom: 3px;
+}
+.sm-sub {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.82rem; color: rgba(200,180,150,0.65);
+}
+.sm-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(220,210,190,0.7); font-size: 0.8rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.sm-close:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+/* ── Section Label ── */
+.sm-section-label {
+  font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-4); padding: 12px 20px 6px;
+  transition: color var(--transition);
+}
+
+/* ── Divider ── */
+.sm-divider {
+  height: 1px; background: var(--border-soft); margin: 8px 0;
+  transition: background var(--transition);
+}
+
+/* ── Nav Items ── */
+.sm-nav { list-style: none; padding: 0 10px; }
+.sm-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 12px; border-radius: 12px; cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+  margin-bottom: 2px; position: relative;
+}
+.sm-item:hover { background: var(--surface-2); transform: translateX(3px); }
+.sm-item:active { transform: scale(0.98); }
+.sm-item.active {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.sm-icon {
+  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s, background var(--transition);
+}
+.sm-icon svg { width: 18px; height: 18px; color: var(--text-3); transition: color 0.18s; }
+.sm-item.active .sm-icon { background: var(--accent-bg); border-color: var(--accent-border); }
+.sm-item.active .sm-icon svg { color: var(--accent); }
+
+.sm-item-text { flex: 1; }
+.sm-item-name {
+  font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600;
+  color: var(--text-1); letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+.sm-item.active .sm-item-name { color: var(--accent); }
+.sm-item-sub {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.7rem; color: var(--text-4); margin-top: 1px;
+  transition: color var(--transition);
+}
+
+.sm-arrow {
+  font-size: 1.1rem; color: var(--text-4); font-weight: 300;
+  transition: color 0.18s, transform 0.18s;
+}
+.sm-item:hover .sm-arrow { color: var(--accent); transform: translateX(3px); }
+
+/* ── Settings toggles ── */
+.sm-toggle-pill {
+  width: 36px; height: 20px; border-radius: 10px;
+  background: var(--toggle-bg); border: 1px solid var(--border);
+  position: relative; flex-shrink: 0; transition: background 0.3s;
+}
+.sm-toggle-pill::after {
+  content: ''; position: absolute;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--surface); top: 2px; left: 2px;
+  transition: transform 0.3s, background 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+[data-theme="dark"] .sm-toggle-pill { background: var(--accent); border-color: var(--accent-border); }
+[data-theme="dark"] .sm-toggle-pill::after { transform: translateX(16px); }
+
+.sm-notif-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: var(--border); border: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.sm-notif-dot.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+/* ── Footer ── */
+.sm-footer {
+  padding: 18px 22px 32px; text-align: center;
+  border-top: 1px solid var(--border-soft);
+  margin-top: auto;
+}
+.sm-footer-verse {
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 0.82rem; color: var(--text-3); line-height: 1.6;
+  margin-bottom: 4px; transition: color var(--transition);
+}
+.sm-footer-ref {
+  font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.1em;
+  color: var(--gold); text-transform: uppercase; transition: color var(--transition);
+}
+
+/* Scrollable menu body */
+.side-menu { overflow-y: auto; }
+.sm-header { position: sticky; top: 0; z-index: 1; }
 </style>
 </head>
 <body>
@@ -1092,13 +1299,18 @@ body {
 
   <!-- Top Bar -->
   <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark"></div>
+    <button class="brand" id="menuTrigger" onclick="toggleMenu()" aria-label="Open menu">
+      <div class="brand-mark">
+        <div class="menu-bars" id="menuBars">
+          <span></span><span></span><span></span>
+        </div>
+        <svg class="brand-cross" id="brandCross" viewBox="0 0 24 24" fill="none" stroke="#C8A84A" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
       <div class="brand-text">
         <div class="brand-name">Excellent Day</div>
-        <div class="brand-sub">Daily Devotional</div>
+        <div class="brand-sub">Tap to open menu</div>
       </div>
-    </div>
+    </button>
     <div class="topbar-right">
       <div class="topbar-date-wrap">
         <div class="tb-date" id="topDate"></div>
@@ -1374,6 +1586,107 @@ body {
     </div>
     <button class="ios-close" onclick="document.getElementById('iosBanner').classList.remove('show');localStorage.setItem('edd_ios_dismissed','1')">Got it</button>
   </div>
+
+
+  <!-- ═══ SLIDE-OUT NAVIGATION MENU ═══ -->
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="side-menu" id="sideMenu">
+    <div class="sm-header">
+      <div class="sm-emblem">
+        <div class="sm-cross"></div>
+      </div>
+      <div class="sm-title">Excellent Day</div>
+      <div class="sm-sub">Daily Devotional</div>
+      <button class="sm-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="sm-divider"></div>
+
+    <div class="sm-section-label">Navigation</div>
+    <ul class="sm-nav">
+      <li class="sm-item active" id="sm-today" onclick="menuNav('today')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">Today's Devotional</div>
+          <div class="sm-item-sub">Verse, reflection & prayer</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+      <li class="sm-item" id="sm-bible" onclick="menuNav('bible')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">Holy Bible</div>
+          <div class="sm-item-sub">Read KJV scripture</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+      <li class="sm-item" id="sm-search" onclick="menuNav('search')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">Search the Bible</div>
+          <div class="sm-item-sub">Find verses by keyword</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+      <li class="sm-item" id="sm-journal" onclick="menuNav('journal')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">My Journal</div>
+          <div class="sm-item-sub">Reflect & record</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+      <li class="sm-item" id="sm-plan" onclick="menuNav('plan')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">Reading Plan</div>
+          <div class="sm-item-sub">NT in 90 days</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+    </ul>
+
+    <div class="sm-divider"></div>
+    <div class="sm-section-label">Settings</div>
+
+    <ul class="sm-nav">
+      <li class="sm-item" onclick="toggleTheme(); closeMenu()">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name" id="themeMenuLabel">Light / Dark Mode</div>
+          <div class="sm-item-sub" id="themeMenuSub">Toggle appearance</div>
+        </div>
+        <div class="sm-toggle-pill" id="themeMenuPill"></div>
+      </li>
+      <li class="sm-item" onclick="toggleNotifications()">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">Daily Notifications</div>
+          <div class="sm-item-sub">7:00 AM devotional reminder</div>
+        </div>
+        <div class="sm-notif-dot" id="smNotifDot"></div>
+      </li>
+    </ul>
+
+    <div class="sm-footer">
+      <div class="sm-footer-verse">"This is the day the LORD has made"</div>
+      <div class="sm-footer-ref">Psalm 118:24</div>
+    </div>
+  </nav>
 
 </div><!-- end #app -->
 
@@ -1747,6 +2060,7 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('edd_theme', theme);
   toast(theme === 'dark' ? '☾ Dark mode' : '☀ Light mode');
+  updateMenuState();
 }
 
 // ── NAVIGATION ──────────────────────────
@@ -2201,6 +2515,7 @@ async function toggleNotifications() {
     localStorage.setItem('edd_notif', 'false');
     updateNotifBtn();
     toast('Daily notifications turned off');
+    updateMenuState();
     return;
   }
 
@@ -2213,6 +2528,7 @@ async function toggleNotifications() {
     updateNotifBtn();
     scheduleDevotionalNotification();
     toast('✦ Daily devotional notifications enabled!');
+    updateMenuState();
     // Show a welcome notification immediately
     new Notification('Excellent Day Devotional', {
       body: 'You will receive your daily devotional at 7:00 AM 🙏',
@@ -2250,6 +2566,78 @@ function scheduleDevotionalNotification() {
 }
 
 // Re-schedule on DOMContentLoaded (avoids duplicate 'load' listener)
+
+// ══════════════════════════════════════════════════════
+//  SIDE MENU
+// ══════════════════════════════════════════════════════
+let menuOpen = false;
+
+function toggleMenu() {
+  menuOpen ? closeMenu() : openMenu();
+}
+
+function openMenu() {
+  menuOpen = true;
+  document.getElementById('sideMenu').classList.add('show');
+  document.getElementById('menuOverlay').classList.add('show');
+  document.getElementById('app').classList.add('menu-open');
+  updateMenuState();
+}
+
+function closeMenu() {
+  menuOpen = false;
+  document.getElementById('sideMenu').classList.remove('show');
+  document.getElementById('menuOverlay').classList.remove('show');
+  document.getElementById('app').classList.remove('menu-open');
+}
+
+function menuNav(page) {
+  // Update active state in side menu
+  document.querySelectorAll('.sm-item[id^="sm-"]').forEach(el => el.classList.remove('active'));
+  const smItem = document.getElementById('sm-' + page);
+  if (smItem) smItem.classList.add('active');
+  // Navigate
+  nav(page);
+  // Close menu with slight delay for visual feedback
+  setTimeout(closeMenu, 180);
+}
+
+function updateMenuState() {
+  // Sync theme toggle pill
+  const pill = document.getElementById('themeMenuPill');
+  const sub  = document.getElementById('themeMenuSub');
+  if (pill) {
+    // pill styling is handled by CSS [data-theme] already
+  }
+  if (sub) {
+    sub.textContent = document.documentElement.getAttribute('data-theme') === 'dark'
+      ? 'Currently: Dark mode' : 'Currently: Light mode';
+  }
+  // Sync notification dot
+  const dot = document.getElementById('smNotifDot');
+  if (dot) dot.classList.toggle('on', notifEnabled);
+}
+
+// Close menu on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && menuOpen) closeMenu();
+});
+
+// Keep menu active item in sync with bottom nav
+const _origNav = nav;
+// Override nav to also update side menu active state
+function nav(p) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  document.getElementById('nb-' + p).classList.add('active');
+  document.querySelector('.main').scrollTop = 0;
+  // Sync side menu active state
+  document.querySelectorAll('.sm-item[id^="sm-"]').forEach(el => el.classList.remove('active'));
+  const smItem = document.getElementById('sm-' + p);
+  if (smItem) smItem.classList.add('active');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   updateNotifBtn();
   if (notifEnabled && Notification.permission === 'granted') {
