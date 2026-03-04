@@ -1273,6 +1273,292 @@ button.brand:active { transform: scale(0.97); }
 /* Scrollable menu body */
 .side-menu { overflow-y: auto; }
 .sm-header { position: sticky; top: 0; z-index: 1; }
+
+/* ══════════════════════════════════════
+   HYMN OF THE DAY
+══════════════════════════════════════ */
+.hymn-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 20px 20px 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.hymn-card::before {
+  content: '♪';
+  position: absolute; top: -10px; right: 18px;
+  font-size: 90px; color: var(--accent);
+  opacity: 0.04; pointer-events: none; line-height: 1;
+  font-family: serif;
+}
+
+.hymn-top-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.hymn-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 20px;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em;
+  color: var(--accent); text-transform: uppercase;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.hymn-badge svg { width: 13px; height: 13px; }
+
+.hymn-theme-pill {
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.1em;
+  color: var(--gold); text-transform: uppercase;
+  transition: background var(--transition), color var(--transition);
+}
+
+.hymn-title-block { margin-bottom: 14px; }
+.hymn-title {
+  font-family: 'Cinzel', serif; font-size: 1.08rem; font-weight: 700;
+  color: var(--text-1); letter-spacing: 0.03em; line-height: 1.3;
+  margin-bottom: 4px; transition: color var(--transition);
+}
+.hymn-author {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.78rem; color: var(--text-3); transition: color var(--transition);
+}
+
+.hymn-gold-line {
+  height: 1px; margin-bottom: 18px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+/* ── Verse Carousel ── */
+.hymn-carousel {
+  min-height: 130px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.hymn-slide {
+  display: none;
+  animation: hymn-fade 0.4s ease;
+}
+.hymn-slide.active { display: block; }
+@keyframes hymn-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hymn-slide-label {
+  font-family: 'Cinzel', serif; font-size: 0.54rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 7px;
+  transition: color var(--transition);
+}
+.hymn-slide-label::after { content: ''; flex: 1; height: 1px; background: var(--border-soft); }
+.hymn-slide-text {
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 1.04rem; line-height: 1.88; color: var(--text-2);
+  transition: color var(--transition);
+}
+.hymn-slide.chorus .hymn-slide-label { color: var(--accent); }
+.hymn-slide.chorus .hymn-slide-text {
+  color: var(--text-1); font-weight: 500;
+  padding: 12px 16px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+}
+
+/* ── Dots ── */
+.hymn-dots-row {
+  display: flex; justify-content: center; gap: 6px; margin-bottom: 14px;
+}
+.hymn-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border); cursor: pointer;
+  transition: all 0.22s;
+}
+.hymn-dot.active { background: var(--accent); transform: scale(1.3); }
+.hymn-dot.chorus-dot { border-radius: 3px; width: 14px; }
+.hymn-dot.chorus-dot.active { background: var(--gold); }
+
+/* ── Controls ── */
+.hymn-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 10px;
+}
+.hymn-ctrl-btn {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.18s, background var(--transition);
+  color: var(--text-2);
+}
+.hymn-ctrl-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.hymn-ctrl-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+.hymn-ctrl-btn svg { width: 18px; height: 18px; }
+.hymn-expand-btn {
+  flex: 1; padding: 9px 14px; border-radius: 50px;
+  background: transparent; border: 1px solid var(--border);
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.08em;
+  color: var(--text-3); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.18s, background var(--transition);
+}
+.hymn-expand-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.hymn-expand-btn.open { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.hymn-expand-btn svg { width: 14px; height: 14px; transition: transform 0.3s; }
+.hymn-expand-btn.open svg { transform: rotate(180deg); }
+
+/* ── All Verses Expanded ── */
+.hymn-all { padding-top: 4px; animation: pg-in 0.3s ease; }
+.hymn-all-slide {
+  margin-bottom: 18px; padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.hymn-all-slide:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.hymn-all-slide.chorus-block .hymn-slide-text {
+  padding: 12px 16px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+}
+
+/* ── Share Row ── */
+.hymn-share-row {
+  border-top: 1px solid var(--border-soft); padding-top: 14px; margin-top: 4px;
+}
+.hymn-share-btn {
+  width: 100%; padding: 10px; border-radius: 10px;
+  background: transparent; border: 1px solid var(--border);
+  font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.08em;
+  color: var(--text-3); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.18s, background var(--transition);
+}
+.hymn-share-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+.hymn-share-btn svg { width: 14px; height: 14px; }
+
+
+/* ══════════════════════════════════════
+   HYMNS LIBRARY PAGE
+══════════════════════════════════════ */
+.hymns-search-wrap {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 0 14px; margin-bottom: 14px;
+  transition: border-color 0.2s, background var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.hymns-search-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.hymns-search-ico { width: 17px; height: 17px; color: var(--text-3); flex-shrink: 0; transition: color 0.2s; }
+.hymns-search-wrap:focus-within .hymns-search-ico { color: var(--accent); }
+.hymns-search-inp {
+  flex: 1; border: none; background: transparent; outline: none;
+  font-family: 'Source Serif 4', serif; font-size: 0.95rem;
+  color: var(--text-1); padding: 13px 0; transition: color var(--transition);
+}
+.hymns-search-inp::placeholder { color: var(--text-4); }
+.hymns-filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+.hf-pill {
+  padding: 5px 12px; border-radius: 20px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface);
+  font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.07em;
+  color: var(--text-3); transition: all 0.18s, background var(--transition);
+  white-space: nowrap;
+}
+.hf-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.hf-pill.active { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+#hymnsGrid { display: flex; flex-direction: column; gap: 8px; }
+.hlib-card {
+  background: var(--surface); border: 1px solid var(--border-soft);
+  border-radius: 13px; padding: 13px 16px; cursor: pointer;
+  transition: all 0.18s, background var(--transition);
+  display: flex; align-items: center; gap: 12px;
+  position: relative; overflow: hidden;
+}
+.hlib-card:hover { border-color: var(--accent); transform: translateX(3px); box-shadow: var(--shadow-md); }
+.hlib-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--border); border-radius: 3px 0 0 3px;
+  transition: background 0.18s;
+}
+.hlib-card:hover::before { background: var(--accent); }
+.hlib-num {
+  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.02em;
+  transition: background var(--transition);
+}
+.hlib-info { flex: 1; min-width: 0; }
+.hlib-title {
+  font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 600;
+  color: var(--text-1); letter-spacing: 0.02em; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--transition);
+}
+.hlib-card:hover .hlib-title { color: var(--accent); }
+.hlib-author {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.7rem; color: var(--text-3); transition: color var(--transition);
+}
+.hlib-theme {
+  padding: 3px 8px; border-radius: 10px; flex-shrink: 0;
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  font-family: 'Cinzel', serif; font-size: 0.46rem; letter-spacing: 0.06em;
+  color: var(--gold); white-space: nowrap; max-width: 90px;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: background var(--transition), color var(--transition);
+}
+.hymns-empty {
+  text-align: center; padding: 40px 20px;
+  font-family: 'Lora', serif; font-style: italic;
+  color: var(--text-4); font-size: 0.95rem;
+}
+.hymns-count {
+  font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.1em;
+  color: var(--text-3); margin-bottom: 12px; text-transform: uppercase;
+}
+.hymns-count span { color: var(--gold); }
+/* Hymn Reader */
+.hymn-reader { animation: pg-in 0.3s ease; }
+.hymn-reader-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 50px; margin-bottom: 18px;
+  border: 1px solid var(--border); background: var(--surface);
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.06em;
+  color: var(--text-2); cursor: pointer;
+  transition: all 0.18s, background var(--transition);
+}
+.hymn-reader-back:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.hymn-reader-back svg { width: 15px; height: 15px; }
+.hymn-reader-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 13px; border-radius: 20px; margin-bottom: 12px;
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em;
+  color: var(--gold); text-transform: uppercase;
+}
+.hymn-reader-title {
+  font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700;
+  color: var(--text-1); letter-spacing: 0.03em; line-height: 1.3;
+  margin-bottom: 5px; transition: color var(--transition);
+}
+.hymn-reader-author {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.8rem; color: var(--text-3); margin-bottom: 16px;
+}
+.hymn-reader-gold-line {
+  height: 1px; margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--gold), transparent); opacity: 0.4;
+}
+
 </style>
 </head>
 <body>
@@ -1374,6 +1660,55 @@ button.brand:active { transform: scale(0.97); }
         <div class="prayer-lbl"><div class="prayer-dot"></div>Pray Together</div>
         <p class="prayer-text" id="devotionalPrayer">"Lord, I receive this new morning as a gift from Your hands. Let Your mercies be the lens through which I see every challenge today. May Your faithfulness be my confidence, and Your love be my strength. Amen."</p>
       </div>
+
+
+      <div class="sh"><div class="sh-gem">♪</div><div class="sh-label">Hymn of the Day</div><div class="sh-line"></div></div>
+      <div class="hymn-card" id="hymnCard">
+        <div class="hymn-top-row">
+          <div class="hymn-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            Hymn
+          </div>
+          <div class="hymn-theme-pill" id="hymnThemePill">Faithfulness</div>
+        </div>
+        <div class="hymn-title-block">
+          <div class="hymn-title" id="hymnTitle">Great Is Thy Faithfulness</div>
+          <div class="hymn-author" id="hymnAuthor">Thomas O. Chisholm · 1923</div>
+        </div>
+        <div class="hymn-gold-line"></div>
+
+        <!-- Verse Carousel -->
+        <div class="hymn-carousel" id="hymnCarousel"></div>
+
+        <!-- Dot indicators -->
+        <div class="hymn-dots-row" id="hymnDotsRow"></div>
+
+        <!-- Controls -->
+        <div class="hymn-controls">
+          <button class="hymn-ctrl-btn" id="hymnPrevBtn" onclick="hymnPrev()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="hymn-expand-btn" id="hymnExpandBtn" onclick="hymnToggleAll()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            All Verses
+          </button>
+          <button class="hymn-ctrl-btn" id="hymnNextBtn" onclick="hymnNext()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <!-- All verses expanded view -->
+        <div class="hymn-all" id="hymnAll" style="display:none"></div>
+
+        <!-- Share row -->
+        <div class="hymn-share-row">
+          <button class="hymn-share-btn" onclick="hymnShare()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share This Hymn
+          </button>
+        </div>
+      </div>
+
 
       <div class="sh"><div class="sh-gem">✦</div><div class="sh-label">Devotional Streak</div><div class="sh-line"></div></div>
       <div class="streak-row" id="streakRow"></div>
@@ -1511,6 +1846,52 @@ button.brand:active { transform: scale(0.97); }
       </div>
     </div>
 
+
+    <!-- HYMNS LIBRARY PAGE -->
+    <div class="page" id="page-hymns">
+      <div class="ph" style="margin-bottom:18px">
+        <div class="ph-label">Christ Apostolic Church</div>
+        <h2 class="ph-title" style="font-size:1.32rem">CAC Hymn Book</h2>
+        <div class="ph-divider"><div class="ph-div-line"></div><span>♪</span><div class="ph-div-line r"></div></div>
+      </div>
+      <div class="hymns-search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="hymns-search-ico"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="hymnSearchInput" class="hymns-search-inp" placeholder="Search hymn title, number, theme…" oninput="filterHymns(this.value)"/>
+      </div>
+      <div class="hymns-filters" id="hymnFilters"></div>
+      <div id="hymnsGrid"></div>
+      <div class="hymn-reader" id="hymnReader" style="display:none">
+        <button class="hymn-reader-back" onclick="closeHymnReader()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Library
+        </button>
+        <div class="hymn-reader-badge" id="hrBadge"></div>
+        <div class="hymn-reader-title" id="hrTitle"></div>
+        <div class="hymn-reader-author" id="hrAuthor"></div>
+        <div class="hymn-reader-gold-line"></div>
+        <div id="hrSlides"></div>
+        <div class="hymn-dots-row" id="hrDots"></div>
+        <div class="hymn-controls" style="margin-bottom:20px">
+          <button class="hymn-ctrl-btn" id="hrPrevBtn" onclick="hrPrev()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="hymn-expand-btn" id="hrExpandBtn" onclick="hrToggleAll()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            All Verses
+          </button>
+          <button class="hymn-ctrl-btn" id="hrNextBtn" onclick="hrNext()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div id="hrAllVerses" style="display:none"></div>
+        <div class="hymn-share-row">
+          <button class="hymn-share-btn" onclick="hrShare()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share This Hymn
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Bottom Nav -->
@@ -1651,6 +2032,16 @@ button.brand:active { transform: scale(0.97); }
         <div class="sm-item-text">
           <div class="sm-item-name">Reading Plan</div>
           <div class="sm-item-sub">NT in 90 days</div>
+        </div>
+        <div class="sm-arrow">›</div>
+      </li>
+      <li class="sm-item" id="sm-hymns" onclick="menuNav('hymns')">
+        <div class="sm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="sm-item-text">
+          <div class="sm-item-name">CAC Hymn Book</div>
+          <div class="sm-item-sub">80 hymns of the faith</div>
         </div>
         <div class="sm-arrow">›</div>
       </li>
@@ -1993,12 +2384,15 @@ async function loadTodayDevotional() {
       ).join('');
     }
   }
+  // Re-match hymn after devotional content updated
+  buildHymn();
 }
 
 async function boot() {
   tick(); setInterval(tick, 30000);
   setGreeting();
   buildBooks();
+  buildHymnsPage();
 
   const d = new Date();
   document.getElementById('jDateLbl').textContent =
@@ -2008,9 +2402,11 @@ async function boot() {
   try {
     await ensureUser();
     await Promise.all([ loadTodayDevotional(), initJournal(), initPlan(), initStreak() ]);
+    buildHymn(); // build hymn after devotional content is in DOM
   } catch(e) {
     console.warn('Supabase unavailable — using localStorage fallback:', e.message);
     buildStreak(); buildJournalHistory(); buildPlan();
+    buildHymn(); // build hymn using fallback content
   }
 }
 
@@ -2064,14 +2460,7 @@ function toggleTheme() {
 }
 
 // ── NAVIGATION ──────────────────────────
-function nav(p) {
-  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
-  document.getElementById('page-' + p).classList.add('active');
-  document.getElementById('nb-' + p).classList.add('active');
-  // Reset scroll position when switching pages
-  document.querySelector('.main').scrollTop = 0;
-}
+// nav() defined below with full menu sync
 
 // ── BIBLE ───────────────────────────────
 function buildBooks(filter = 'all') {
@@ -2237,6 +2626,779 @@ function toast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2600);
 }
+</script>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  HYMN LIBRARY — Theme-Matched Devotional Hymns
+// ══════════════════════════════════════════════════════
+const HYMN_LIBRARY = {
+
+h001: { number: "1", title: "All Hail the Power of Jesus' Name", author: "Edward Perronet, 1779", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"All hail the power of Jesus' name!\nLet angels prostrate fall;\nBring forth the royal diadem,\nAnd crown Him Lord of all!" },
+  { type:"chorus", label:"Chorus", text:"Crown Him! Crown Him!\nCrown Him Lord of all!" },
+  { type:"verse", label:"Verse 2", text:"Crown Him, ye martyrs of our God,\nWho from His altar call;\nExtol the stem of Jesse's rod,\nAnd crown Him Lord of all!" },
+  { type:"verse", label:"Verse 3", text:"Ye chosen seed of Israel's race,\nYe ransomed from the fall,\nHail Him who saves you by His grace,\nAnd crown Him Lord of all!" },
+  { type:"verse", label:"Verse 4", text:"Sinners, whose love can ne'er forget\nThe wormwood and the gall,\nGo spread your trophies at His feet\nAnd crown Him Lord of all!" },
+  { type:"verse", label:"Verse 5", text:"Let every kindred, every tribe,\nOn this terrestrial ball,\nTo Him all majesty ascribe\nAnd crown Him Lord of all!" }
+]},
+
+h002: { number: "2", title: "Crown Him with Many Crowns", author: "Matthew Bridges, 1851", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"Crown Him with many crowns,\nThe Lamb upon His throne;\nHark! how the heav'nly anthem drowns\nAll music but its own!\nAwake, my soul, and sing\nOf Him who died for thee,\nAnd hail Him as thy matchless King\nThrough all eternity." },
+  { type:"verse", label:"Verse 2", text:"Crown Him the Lord of life,\nWho triumphed o'er the grave,\nAnd rose victorious in the strife\nFor those He came to save;\nHis glories now we sing\nWho died and rose on high,\nWho died eternal life to bring\nAnd lives that death may die." },
+  { type:"verse", label:"Verse 3", text:"Crown Him the Lord of love;\nBehold His hands and side,\nRich wounds, yet visible above,\nIn beauty glorified;\nNo angel in the sky\nCan fully bear that sight,\nBut downward bends his burning eye\nAt mysteries so bright." },
+  { type:"verse", label:"Verse 4", text:"Crown Him the Lord of heav'n,\nOne with the Father known,\nOne with the Spirit through Him giv'n\nFrom yonder glorious throne;\nTo Thee be endless praise,\nFor Thou for us hast died;\nBe Thou, O Lord, through endless days\nAdored and magnified." }
+]},
+
+h003: { number: "3", title: "Holy, Holy, Holy! Lord God Almighty", author: "Reginald Heber, 1826", theme: "Holiness of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Holy, holy, holy! Lord God Almighty!\nEarly in the morning our song shall rise to Thee;\nHoly, holy, holy! Merciful and mighty!\nGod in three persons, blessed Trinity!" },
+  { type:"verse", label:"Verse 2", text:"Holy, holy, holy! All the saints adore Thee,\nCasting down their golden crowns around the glassy sea;\nCherubim and seraphim falling down before Thee,\nWhich wert, and art, and evermore shalt be." },
+  { type:"verse", label:"Verse 3", text:"Holy, holy, holy! Though the darkness hide Thee,\nThough the eye of sinful man Thy glory may not see;\nOnly Thou art holy; there is none beside Thee\nPerfect in power, in love and purity." },
+  { type:"verse", label:"Verse 4", text:"Holy, holy, holy! Lord God Almighty!\nAll Thy works shall praise Thy name in earth and sky and sea;\nHoly, holy, holy! Merciful and mighty!\nGod in three persons, blessed Trinity!" }
+]},
+
+h004: { number: "4", title: "To God Be the Glory", author: "Fanny J. Crosby, 1875", theme: "Worship & Glory", slides: [
+  { type:"verse", label:"Verse 1", text:"To God be the glory, great things He hath done!\nSo loved He the world that He gave us His Son,\nWho yielded His life an atonement for sin,\nAnd opened the life-gate that all may go in." },
+  { type:"chorus", label:"Chorus", text:"Praise the Lord, praise the Lord,\nLet the earth hear His voice!\nPraise the Lord, praise the Lord,\nLet the people rejoice!\nO come to the Father, through Jesus the Son,\nAnd give Him the glory; great things He hath done." },
+  { type:"verse", label:"Verse 2", text:"O perfect redemption, the purchase of blood,\nTo every believer the promise of God;\nThe vilest offender who truly believes,\nThat moment from Jesus a pardon receives." },
+  { type:"verse", label:"Verse 3", text:"Great things He hath taught us, great things He hath done,\nAnd great our rejoicing through Jesus the Son;\nBut purer, and higher, and greater will be\nOur wonder, our transport, when Jesus we see." }
+]},
+
+h005: { number: "5", title: "Praise to the Lord, the Almighty", author: "Joachim Neander, 1680", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"Praise to the Lord, the Almighty, the King of creation!\nO my soul, praise Him, for He is thy health and salvation!\nAll ye who hear, now to His temple draw near;\nPraise Him in glad adoration." },
+  { type:"verse", label:"Verse 2", text:"Praise to the Lord, who o'er all things so wondrously reigneth,\nShelters thee under His wings, yea so gently sustaineth!\nHast thou not seen how thy desires e'er have been\nGranted in what He ordaineth?" },
+  { type:"verse", label:"Verse 3", text:"Praise to the Lord, who doth prosper thy work and defend thee;\nSurely His goodness and mercy here daily attend thee;\nPonder anew what the Almighty can do,\nIf with His love He befriend thee." },
+  { type:"verse", label:"Verse 4", text:"Praise to the Lord! O let all that is in me adore Him!\nAll that hath life and breath, come now with praises before Him!\nLet the Amen sound from His people again;\nGladly for aye we adore Him." }
+]},
+
+h006: { number: "6", title: "O Worship the King", author: "Robert Grant, 1833", theme: "Worship & Glory", slides: [
+  { type:"verse", label:"Verse 1", text:"O worship the King all-glorious above,\nO gratefully sing His power and His love;\nOur Shield and Defender, the Ancient of Days,\nPavilioned in splendor and girded with praise." },
+  { type:"verse", label:"Verse 2", text:"O tell of His might, O sing of His grace,\nWhose robe is the light, whose canopy space;\nHis chariots of wrath the deep thunderclouds form,\nAnd dark is His path on the wings of the storm." },
+  { type:"verse", label:"Verse 3", text:"Thy bountiful care what tongue can recite?\nIt breathes in the air, it shines in the light;\nIt streams from the hills, it descends to the plain,\nAnd sweetly distills in the dew and the rain." },
+  { type:"verse", label:"Verse 4", text:"Frail children of dust, and feeble as frail,\nIn Thee do we trust, nor find Thee to fail;\nThy mercies how tender, how firm to the end,\nOur Maker, Defender, Redeemer, and Friend!" }
+]},
+
+h007: { number: "7", title: "How Great Thou Art", author: "Carl Boberg, 1885", theme: "Awe & Majesty", slides: [
+  { type:"verse", label:"Verse 1", text:"O Lord my God! When I in awesome wonder\nConsider all the worlds Thy hands have made,\nI see the stars, I hear the rolling thunder,\nThy power throughout the universe displayed." },
+  { type:"chorus", label:"Chorus", text:"Then sings my soul, my Savior God, to Thee:\nHow great Thou art, how great Thou art!\nThen sings my soul, my Savior God, to Thee:\nHow great Thou art, how great Thou art!" },
+  { type:"verse", label:"Verse 2", text:"When through the woods and forest glades I wander\nAnd hear the birds sing sweetly in the trees;\nWhen I look down from lofty mountain grandeur\nAnd hear the brook and feel the gentle breeze." },
+  { type:"verse", label:"Verse 3", text:"And when I think that God, His Son not sparing,\nSent Him to die, I scarce can take it in;\nThat on the cross, my burden gladly bearing,\nHe bled and died to take away my sin." },
+  { type:"verse", label:"Verse 4", text:"When Christ shall come with shout of acclamation\nAnd take me home, what joy shall fill my heart!\nThen I shall bow in humble adoration\nAnd there proclaim, my God, how great Thou art!" }
+]},
+
+h008: { number: "8", title: "Immortal, Invisible, God Only Wise", author: "Walter C. Smith, 1867", theme: "Holiness of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Immortal, invisible, God only wise,\nIn light inaccessible hid from our eyes,\nMost blessèd, most glorious, the Ancient of Days,\nAlmighty, victorious, Thy great name we praise." },
+  { type:"verse", label:"Verse 2", text:"Unresting, unhasting, and silent as light,\nNor wanting, nor wasting, Thou rulest in might;\nThy justice like mountains high soaring above,\nThy clouds which are fountains of goodness and love." },
+  { type:"verse", label:"Verse 3", text:"To all life Thou givest, to both great and small;\nIn all life Thou livest, the true life of all;\nWe blossom and flourish as leaves on the tree,\nAnd wither and perish, but naught changeth Thee." },
+  { type:"verse", label:"Verse 4", text:"Great Father of glory, pure Father of light,\nThine angels adore Thee, all veiling their sight;\nBut of all Thy rich graces this grace, Lord, impart:\nTake the veil from our faces, the vile from our heart." }
+]},
+
+h009: { number: "9", title: "There Is a Green Hill Far Away", author: "Cecil F. Alexander, 1848", theme: "Mercy & Redemption", slides: [
+  { type:"verse", label:"Verse 1", text:"There is a green hill far away,\nWithout a city wall,\nWhere the dear Lord was crucified,\nWho died to save us all." },
+  { type:"chorus", label:"Chorus", text:"O dearly, dearly has He loved!\nAnd we must love Him too,\nAnd trust in His redeeming blood,\nAnd try His works to do." },
+  { type:"verse", label:"Verse 2", text:"We may not know, we cannot tell,\nWhat pains He had to bear,\nBut we believe it was for us\nHe hung and suffered there." },
+  { type:"verse", label:"Verse 3", text:"He died that we might be forgiv'n,\nHe died to make us good,\nThat we might go at last to heav'n,\nSaved by His precious blood." },
+  { type:"verse", label:"Verse 4", text:"There was no other good enough\nTo pay the price of sin;\nHe only could unlock the gate\nOf heav'n and let us in." }
+]},
+
+h010: { number: "10", title: "When I Survey the Wondrous Cross", author: "Isaac Watts, 1707", theme: "Cross & Atonement", slides: [
+  { type:"verse", label:"Verse 1", text:"When I survey the wondrous cross\nOn which the Prince of glory died,\nMy richest gain I count but loss,\nAnd pour contempt on all my pride." },
+  { type:"verse", label:"Verse 2", text:"Forbid it, Lord, that I should boast,\nSave in the death of Christ my God!\nAll the vain things that charm me most,\nI sacrifice them to His blood." },
+  { type:"verse", label:"Verse 3", text:"See from His head, His hands, His feet,\nSorrow and love flow mingled down!\nDid e'er such love and sorrow meet,\nOr thorns compose so rich a crown?" },
+  { type:"verse", label:"Verse 4", text:"Were the whole realm of nature mine,\nThat were a present far too small;\nLove so amazing, so divine,\nDemands my soul, my life, my all." }
+]},
+
+h011: { number: "11", title: "Rock of Ages, Cleft for Me", author: "Augustus Toplady, 1776", theme: "Cross & Atonement", slides: [
+  { type:"verse", label:"Verse 1", text:"Rock of Ages, cleft for me,\nLet me hide myself in Thee;\nLet the water and the blood,\nFrom Thy wounded side which flowed,\nBe of sin the double cure;\nSave from wrath and make me pure." },
+  { type:"verse", label:"Verse 2", text:"Not the labor of my hands\nCan fulfill Thy law's demands;\nCould my zeal no respite know,\nCould my tears forever flow,\nAll for sin could not atone;\nThou must save, and Thou alone." },
+  { type:"verse", label:"Verse 3", text:"Nothing in my hand I bring,\nSimply to the cross I cling;\nNaked, come to Thee for dress;\nHelpless, look to Thee for grace;\nFoul, I to the fountain fly;\nWash me, Savior, or I die." },
+  { type:"verse", label:"Verse 4", text:"While I draw this fleeting breath,\nWhen mine eyes shall close in death,\nWhen I soar to worlds unknown,\nSee Thee on Thy judgment throne,\nRock of Ages, cleft for me,\nLet me hide myself in Thee." }
+]},
+
+h012: { number: "12", title: "Just as I Am, Without One Plea", author: "Charlotte Elliott, 1835", theme: "Salvation & Invitation", slides: [
+  { type:"verse", label:"Verse 1", text:"Just as I am, without one plea,\nBut that Thy blood was shed for me,\nAnd that Thou bidd'st me come to Thee,\nO Lamb of God, I come, I come." },
+  { type:"verse", label:"Verse 2", text:"Just as I am, and waiting not\nTo rid my soul of one dark blot,\nTo Thee whose blood can cleanse each spot,\nO Lamb of God, I come, I come." },
+  { type:"verse", label:"Verse 3", text:"Just as I am, though tossed about\nWith many a conflict, many a doubt,\nFightings and fears within, without,\nO Lamb of God, I come, I come." },
+  { type:"verse", label:"Verse 4", text:"Just as I am, poor, wretched, blind;\nSight, riches, healing of the mind,\nYea, all I need in Thee to find,\nO Lamb of God, I come, I come." },
+  { type:"verse", label:"Verse 5", text:"Just as I am, Thou wilt receive,\nWilt welcome, pardon, cleanse, relieve;\nBecause Thy promise I believe,\nO Lamb of God, I come, I come." }
+]},
+
+h013: { number: "13", title: "There Is a Fountain Filled with Blood", author: "William Cowper, 1772", theme: "Blood of Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"There is a fountain filled with blood\nDrawn from Emmanuel's veins;\nAnd sinners plunged beneath that flood\nLose all their guilty stains." },
+  { type:"chorus", label:"Chorus", text:"Lose all their guilty stains,\nLose all their guilty stains;\nAnd sinners plunged beneath that flood\nLose all their guilty stains." },
+  { type:"verse", label:"Verse 2", text:"The dying thief rejoiced to see\nThat fountain in his day;\nAnd there may I, though vile as he,\nWash all my sins away." },
+  { type:"verse", label:"Verse 3", text:"Dear dying Lamb, Thy precious blood\nShall never lose its power\nTill all the ransomed church of God\nBe saved to sin no more." },
+  { type:"verse", label:"Verse 4", text:"E'er since by faith I saw the stream\nThy flowing wounds supply,\nRedeeming love has been my theme,\nAnd shall be till I die." }
+]},
+
+h014: { number: "14", title: "Grace, 'Tis a Charming Sound", author: "Philip Doddridge, 1755", theme: "Grace & Salvation", slides: [
+  { type:"verse", label:"Verse 1", text:"Grace, 'tis a charming sound,\nHarmonious to the ear;\nHeav'n with the echo shall resound,\nAnd all the earth shall hear." },
+  { type:"chorus", label:"Chorus", text:"Saved by grace alone!\nThis is all my plea:\nJesus died for all mankind,\nAnd Jesus died for me." },
+  { type:"verse", label:"Verse 2", text:"Grace first contrived the way\nTo save rebellious man;\nAnd all the steps that grace display\nWhich drew the wond'rous plan." },
+  { type:"verse", label:"Verse 3", text:"Grace led my roving feet\nTo tread the heav'nly road;\nAnd new supplies each hour I meet\nWhile pressing on to God." },
+  { type:"verse", label:"Verse 4", text:"Grace all the work shall crown\nThrough everlasting days;\nIt lays in heav'n the topmost stone\nAnd well deserves the praise." }
+]},
+
+h015: { number: "15", title: "Amazing Grace", author: "John Newton, 1779", theme: "Grace & Redemption", slides: [
+  { type:"verse", label:"Verse 1", text:"Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found;\nWas blind, but now I see." },
+  { type:"verse", label:"Verse 2", text:"'Twas grace that taught my heart to fear,\nAnd grace my fears relieved;\nHow precious did that grace appear\nThe hour I first believed." },
+  { type:"verse", label:"Verse 3", text:"Through many dangers, toils, and snares,\nI have already come;\n'Tis grace hath brought me safe thus far,\nAnd grace will lead me home." },
+  { type:"verse", label:"Verse 4", text:"The Lord has promised good to me,\nHis word my hope secures;\nHe will my shield and portion be\nAs long as life endures." },
+  { type:"verse", label:"Verse 5", text:"When we've been there ten thousand years,\nBright shining as the sun,\nWe've no less days to sing God's praise\nThan when we first begun." }
+]},
+
+h016: { number: "16", title: "And Can It Be That I Should Gain", author: "Charles Wesley, 1738", theme: "Grace & Redemption", slides: [
+  { type:"verse", label:"Verse 1", text:"And can it be that I should gain\nAn int'rest in the Savior's blood?\nDied He for me, who caused His pain?\nFor me, who Him to death pursued?\nAmazing love! How can it be\nThat Thou, my God, shouldst die for me?" },
+  { type:"chorus", label:"Chorus", text:"Amazing love! How can it be\nThat Thou, my God, shouldst die for me?" },
+  { type:"verse", label:"Verse 2", text:"He left His Father's throne above,\nSo free, so infinite His grace!\nEmptied Himself of all but love,\nAnd bled for Adam's helpless race;\n'Tis mercy all, immense and free;\nFor, O my God, it found out me." },
+  { type:"verse", label:"Verse 3", text:"Long my imprisoned spirit lay\nFast bound in sin and nature's night;\nThine eye diffused a quick'ning ray,\nI woke, the dungeon flamed with light;\nMy chains fell off, my heart was free;\nI rose, went forth, and followed Thee." },
+  { type:"verse", label:"Verse 4", text:"No condemnation now I dread;\nJesus, and all in Him, is mine!\nAlive in Him, my living Head,\nAnd clothed in righteousness divine,\nBold I approach th' eternal throne,\nAnd claim the crown, through Christ my own." }
+]},
+
+h017: { number: "17", title: "O for a Thousand Tongues to Sing", author: "Charles Wesley, 1739", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"O for a thousand tongues to sing\nMy great Redeemer's praise,\nThe glories of my God and King,\nThe triumphs of His grace!" },
+  { type:"verse", label:"Verse 2", text:"My gracious Master and my God,\nAssist me to proclaim,\nTo spread through all the earth abroad\nThe honors of Thy name." },
+  { type:"verse", label:"Verse 3", text:"Jesus! the name that charms our fears,\nThat bids our sorrows cease;\n'Tis music in the sinner's ears,\n'Tis life and health and peace." },
+  { type:"verse", label:"Verse 4", text:"He breaks the power of cancelled sin,\nHe sets the prisoner free;\nHis blood can make the foulest clean;\nHis blood availed for me." },
+  { type:"verse", label:"Verse 5", text:"Hear Him, ye deaf; His praise, ye dumb,\nYour loosened tongues employ;\nYe blind, behold your Savior come;\nAnd leap, ye lame, for joy." }
+]},
+
+h018: { number: "18", title: "Jesus Shall Reign Where'er the Sun", author: "Isaac Watts, 1719", theme: "Kingdom of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Jesus shall reign where'er the sun\nDoes his successive journeys run;\nHis kingdom stretch from shore to shore,\nTill moons shall wax and wane no more." },
+  { type:"verse", label:"Verse 2", text:"To Him shall endless prayer be made,\nAnd praises throng to crown His head;\nHis name like sweet perfume shall rise\nWith every morning sacrifice." },
+  { type:"verse", label:"Verse 3", text:"People and realms of every tongue\nDwell on His love with sweetest song;\nAnd infant voices shall proclaim\nTheir early blessings on His name." },
+  { type:"verse", label:"Verse 4", text:"Let every creature rise and bring\nPeculiar honors to our King;\nAngels descend with songs again,\nAnd earth repeat the loud Amen!" }
+]},
+
+h019: { number: "19", title: "Glorious Things of Thee Are Spoken", author: "John Newton, 1779", theme: "Church & Kingdom", slides: [
+  { type:"verse", label:"Verse 1", text:"Glorious things of thee are spoken,\nZion, city of our God;\nHe whose word cannot be broken\nFormed thee for His own abode;\nOn the Rock of Ages founded,\nWhat can shake thy sure repose?\nWith salvation's walls surrounded,\nThou may'st smile at all thy foes." },
+  { type:"verse", label:"Verse 2", text:"See, the streams of living waters,\nSpringing from eternal love,\nWell supply thy sons and daughters\nAnd all fear of want remove;\nWho can faint, when such a river\nEver will their thirst assuage?\nGrace which, like the Lord, the Giver,\nNever fails from age to age?" },
+  { type:"verse", label:"Verse 3", text:"Round each habitation hov'ring,\nSee the cloud and fire appear\nFor a glory and a cov'ring,\nShowing that the Lord is near;\nThus they march, the pillar leading,\nLight by night and shade by day;\nDaily on the manna feeding\nWhich He gives them when they pray." }
+]},
+
+h020: { number: "20", title: "The Church's One Foundation", author: "Samuel J. Stone, 1866", theme: "Church & Kingdom", slides: [
+  { type:"verse", label:"Verse 1", text:"The Church's one foundation\nIs Jesus Christ her Lord;\nShe is His new creation\nBy water and the Word;\nFrom heav'n He came and sought her\nTo be His holy bride;\nWith His own blood He bought her,\nAnd for her life He died." },
+  { type:"verse", label:"Verse 2", text:"Elect from ev'ry nation,\nYet one o'er all the earth,\nHer charter of salvation\nOne Lord, one faith, one birth;\nOne holy name she blesses,\nPartakes one holy food,\nAnd to one hope she presses\nWith every grace endued." },
+  { type:"verse", label:"Verse 3", text:"Though with a scornful wonder\nMen see her sore oppressed,\nBy schisms rent asunder,\nBy heresies distressed;\nYet saints their watch are keeping,\nTheir cry goes up, 'How long?'\nAnd soon the night of weeping\nShall be the morn of song." },
+  { type:"verse", label:"Verse 4", text:"'Mid toil and tribulation,\nAnd tumult of her war,\nShe waits the consummation\nOf peace for evermore;\nTill with the vision glorious\nHer longing eyes are blest,\nAnd the great Church victorious\nShall be the Church at rest." }
+]},
+
+h021: { number: "21", title: "Abide with Me", author: "Henry F. Lyte, 1847", theme: "God's Presence", slides: [
+  { type:"verse", label:"Verse 1", text:"Abide with me; fast falls the eventide;\nThe darkness deepens; Lord, with me abide;\nWhen other helpers fail and comforts flee,\nHelp of the helpless, O abide with me." },
+  { type:"verse", label:"Verse 2", text:"Swift to its close ebbs out life's little day;\nEarth's joys grow dim, its glories pass away;\nChange and decay in all around I see;\nO Thou who changest not, abide with me." },
+  { type:"verse", label:"Verse 3", text:"I need Thy presence every passing hour;\nWhat but Thy grace can foil the tempter's power?\nWho like Thyself my guide and stay can be?\nThrough cloud and sunshine, Lord, abide with me." },
+  { type:"verse", label:"Verse 4", text:"Hold Thou Thy cross before my closing eyes;\nShine through the gloom and point me to the skies;\nHeav'n's morning breaks, and earth's vain shadows flee;\nIn life, in death, O Lord, abide with me." }
+]},
+
+h022: { number: "22", title: "Nearer, My God, to Thee", author: "Sarah F. Adams, 1841", theme: "God's Presence", slides: [
+  { type:"verse", label:"Verse 1", text:"Nearer, my God, to Thee,\nNearer to Thee!\nE'en though it be a cross\nThat raiseth me;\nStill all my song shall be,\nNearer, my God, to Thee,\nNearer, my God, to Thee,\nNearer to Thee!" },
+  { type:"verse", label:"Verse 2", text:"Though like the wanderer,\nThe sun gone down,\nDarkness be over me,\nMy rest a stone;\nYet in my dreams I'd be\nNearer, my God, to Thee,\nNearer, my God, to Thee,\nNearer to Thee!" },
+  { type:"verse", label:"Verse 3", text:"There let the way appear\nSteps unto heav'n;\nAll that Thou sendest me\nIn mercy giv'n;\nAngels to beckon me\nNearer, my God, to Thee,\nNearer, my God, to Thee,\nNearer to Thee!" },
+  { type:"verse", label:"Verse 4", text:"Then with my waking thoughts\nBright with Thy praise,\nOut of my stony griefs\nBethel I'll raise;\nSo by my woes to be\nNearer, my God, to Thee,\nNearer, my God, to Thee,\nNearer to Thee!" }
+]},
+
+h023: { number: "23", title: "Jesus, Lover of My Soul", author: "Charles Wesley, 1740", theme: "God's Presence", slides: [
+  { type:"verse", label:"Verse 1", text:"Jesus, lover of my soul,\nLet me to Thy bosom fly,\nWhile the nearer waters roll,\nWhile the tempest still is high;\nHide me, O my Savior, hide,\nTill the storm of life is past;\nSafe into the haven guide;\nO receive my soul at last!" },
+  { type:"verse", label:"Verse 2", text:"Other refuge have I none;\nHangs my helpless soul on Thee;\nLeave, ah! leave me not alone,\nStill support and comfort me.\nAll my trust on Thee is stayed,\nAll my help from Thee I bring;\nCover my defenceless head\nWith the shadow of Thy wing." },
+  { type:"verse", label:"Verse 3", text:"Thou, O Christ, art all I want;\nMore than all in Thee I find;\nRaise the fallen, cheer the faint,\nHeal the sick and lead the blind.\nJust and holy is Thy name;\nI am all unrighteousness;\nFalse and full of sin I am,\nThou art full of truth and grace." },
+  { type:"verse", label:"Verse 4", text:"Plenteous grace with Thee is found,\nGrace to cover all my sin;\nLet the healing streams abound;\nMake and keep me pure within.\nThou of life the fountain art;\nFreely let me take of Thee;\nSpring Thou up within my heart,\nRise to all eternity." }
+]},
+
+h024: { number: "24", title: "I Need Thee Every Hour", author: "Annie S. Hawks, 1872", theme: "God's Presence", slides: [
+  { type:"verse", label:"Verse 1", text:"I need Thee every hour,\nMost gracious Lord;\nNo tender voice like Thine\nCan peace afford." },
+  { type:"chorus", label:"Chorus", text:"I need Thee, O I need Thee;\nEvery hour I need Thee;\nO bless me now, my Savior,\nI come to Thee." },
+  { type:"verse", label:"Verse 2", text:"I need Thee every hour,\nStay Thou near by;\nTemptations lose their power\nWhen Thou art nigh." },
+  { type:"verse", label:"Verse 3", text:"I need Thee every hour,\nIn joy or pain;\nCome quickly and abide,\nOr life is vain." },
+  { type:"verse", label:"Verse 4", text:"I need Thee every hour;\nTeach me Thy will;\nAnd Thy rich promises\nIn me fulfill." }
+]},
+
+h025: { number: "25", title: "Blessed Assurance, Jesus Is Mine", author: "Fanny J. Crosby, 1873", theme: "Salvation & Assurance", slides: [
+  { type:"verse", label:"Verse 1", text:"Blessed assurance, Jesus is mine!\nO what a foretaste of glory divine!\nHeir of salvation, purchase of God,\nBorn of His Spirit, washed in His blood." },
+  { type:"chorus", label:"Chorus", text:"This is my story, this is my song,\nPraising my Savior all the day long;\nThis is my story, this is my song,\nPraising my Savior all the day long." },
+  { type:"verse", label:"Verse 2", text:"Perfect submission, perfect delight,\nVisions of rapture now burst on my sight;\nAngels descending, bring from above\nEchoes of mercy, whispers of love." },
+  { type:"verse", label:"Verse 3", text:"Perfect submission, all is at rest,\nI in my Savior am happy and blest;\nWatching and waiting, looking above,\nFilled with His goodness, lost in His love." }
+]},
+
+h026: { number: "26", title: "My Faith Looks Up to Thee", author: "Ray Palmer, 1830", theme: "Faith & Trust", slides: [
+  { type:"verse", label:"Verse 1", text:"My faith looks up to Thee,\nThou Lamb of Calvary,\nSavior divine!\nNow hear me while I pray,\nTake all my guilt away,\nO let me from this day\nBe wholly Thine!" },
+  { type:"verse", label:"Verse 2", text:"May Thy rich grace impart\nStrength to my fainting heart,\nMy zeal inspire;\nAs Thou hast died for me,\nO may my love to Thee\nPure, warm, and changeless be,\nA living fire!" },
+  { type:"verse", label:"Verse 3", text:"While life's dark maze I tread,\nAnd griefs around me spread,\nBe Thou my guide;\nBid darkness turn to day,\nWipe sorrow's tears away,\nNor let me ever stray\nFrom Thee aside." },
+  { type:"verse", label:"Verse 4", text:"When ends life's transient dream,\nWhen death's cold sullen stream\nShall o'er me roll,\nBlest Savior, then, in love,\nFear and distrust remove;\nO bear me safe above,\nA ransomed soul!" }
+]},
+
+h027: { number: "27", title: "Standing on the Promises", author: "Russell K. Carter, 1886", theme: "Faith & Trust", slides: [
+  { type:"verse", label:"Verse 1", text:"Standing on the promises of Christ my King,\nThrough eternal ages let His praises ring;\nGlory in the highest, I will shout and sing,\nStanding on the promises of God." },
+  { type:"chorus", label:"Chorus", text:"Standing, standing,\nStanding on the promises of God my Savior;\nStanding, standing,\nI'm standing on the promises of God." },
+  { type:"verse", label:"Verse 2", text:"Standing on the promises that cannot fail,\nWhen the howling storms of doubt and fear assail,\nBy the living Word of God I shall prevail,\nStanding on the promises of God." },
+  { type:"verse", label:"Verse 3", text:"Standing on the promises of Christ the Lord,\nBound to Him eternally by love's strong cord,\nOvercoming daily with the Spirit's sword,\nStanding on the promises of God." },
+  { type:"verse", label:"Verse 4", text:"Standing on the promises I cannot fall,\nList'ning every moment to the Spirit's call,\nResting in my Savior as my all in all,\nStanding on the promises of God." }
+]},
+
+h028: { number: "28", title: "Great Is Thy Faithfulness", author: "Thomas O. Chisholm, 1923", theme: "Faithfulness of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Great is Thy faithfulness, O God my Father,\nThere is no shadow of turning with Thee;\nThou changest not, Thy compassions, they fail not\nAs Thou hast been, Thou forever wilt be." },
+  { type:"chorus", label:"Chorus", text:"Great is Thy faithfulness!\nGreat is Thy faithfulness!\nMorning by morning new mercies I see;\nAll I have needed Thy hand hath provided —\nGreat is Thy faithfulness, Lord, unto me!" },
+  { type:"verse", label:"Verse 2", text:"Summer and winter, and springtime and harvest,\nSun, moon and stars in their courses above\nJoin with all nature in manifold witness\nTo Thy great faithfulness, mercy and love." },
+  { type:"verse", label:"Verse 3", text:"Pardon for sin and a peace that endureth,\nThine own dear presence to cheer and to guide;\nStrength for today and bright hope for tomorrow,\nBlessings all mine, with ten thousand beside!" }
+]},
+
+h029: { number: "29", title: "O God, Our Help in Ages Past", author: "Isaac Watts, 1719", theme: "God's Provision", slides: [
+  { type:"verse", label:"Verse 1", text:"O God, our help in ages past,\nOur hope for years to come,\nOur shelter from the stormy blast,\nAnd our eternal home!" },
+  { type:"verse", label:"Verse 2", text:"Under the shadow of Thy throne\nThy saints have dwelt secure;\nSufficient is Thine arm alone,\nAnd our defence is sure." },
+  { type:"verse", label:"Verse 3", text:"Before the hills in order stood,\nOr earth received her frame,\nFrom everlasting Thou art God,\nTo endless years the same." },
+  { type:"verse", label:"Verse 4", text:"A thousand ages in Thy sight\nAre like an evening gone,\nShort as the watch that ends the night\nBefore the rising sun." },
+  { type:"verse", label:"Verse 5", text:"O God, our help in ages past,\nOur hope for years to come,\nBe Thou our guard while troubles last,\nAnd our eternal home!" }
+]},
+
+h030: { number: "30", title: "He Leadeth Me, O Blessed Thought", author: "Joseph H. Gilmore, 1862", theme: "God's Guidance", slides: [
+  { type:"verse", label:"Verse 1", text:"He leadeth me! O blessèd thought!\nO words with heav'nly comfort fraught!\nWhate'er I do, where'er I be,\nStill 'tis God's hand that leadeth me." },
+  { type:"chorus", label:"Chorus", text:"He leadeth me, He leadeth me,\nBy His own hand He leadeth me;\nHis faithful follower I would be,\nFor by His hand He leadeth me." },
+  { type:"verse", label:"Verse 2", text:"Sometimes mid scenes of deepest gloom,\nSometimes where Eden's bowers bloom,\nBy waters still, o'er troubled sea,\nStill 'tis His hand that leadeth me." },
+  { type:"verse", label:"Verse 3", text:"Lord, I would place my hand in Thine,\nNor ever murmur nor repine;\nContent, whatever lot I see,\nSince 'tis my God that leadeth me." },
+  { type:"verse", label:"Verse 4", text:"And when my task on earth is done,\nWhen by Thy grace the vict'ry's won,\nE'en death's cold wave I will not flee,\nSince God through Jordan leadeth me." }
+]},
+
+h031: { number: "31", title: "Guide Me, O Thou Great Jehovah", author: "William Williams, 1745", theme: "God's Guidance", slides: [
+  { type:"verse", label:"Verse 1", text:"Guide me, O Thou great Jehovah,\nPilgrim through this barren land;\nI am weak, but Thou art mighty;\nHold me with Thy powerful hand;\nBread of heaven, bread of heaven,\nFeed me till I want no more." },
+  { type:"verse", label:"Verse 2", text:"Open now the crystal fountain\nWhence the healing stream doth flow;\nLet the fire and cloudy pillar\nLead me all my journey through;\nStrong deliverer, strong deliverer,\nBe Thou still my strength and shield." },
+  { type:"verse", label:"Verse 3", text:"When I tread the verge of Jordan,\nBid my anxious fears subside;\nDeath of death, and hell's destruction,\nLand me safe on Canaan's side;\nSongs of praises, songs of praises,\nI will ever give to Thee." }
+]},
+
+h032: { number: "32", title: "All the Way My Savior Leads Me", author: "Fanny J. Crosby, 1875", theme: "God's Guidance", slides: [
+  { type:"verse", label:"Verse 1", text:"All the way my Savior leads me;\nWhat have I to ask beside?\nCan I doubt His tender mercy,\nWho through life has been my guide?\nHeav'nly peace, divinest comfort,\nHere by faith in Him to dwell!\nFor I know what-e'er befall me,\nJesus doeth all things well." },
+  { type:"verse", label:"Verse 2", text:"All the way my Savior leads me,\nCheers each winding path I tread,\nGives me grace for every trial,\nFeeds me with the living bread;\nThough my weary steps may falter,\nAnd my soul athirst may be,\nGushing from the Rock before me,\nLo! a spring of joy I see." },
+  { type:"verse", label:"Verse 3", text:"All the way my Savior leads me;\nO the fullness of His love!\nPerfect rest to me is promised\nIn my Father's house above;\nWhen my spirit, clothed immortal,\nWings its flight to realms of day,\nThis my song through endless ages:\nJesus led me all the way." }
+]},
+
+h033: { number: "33", title: "O Love That Wilt Not Let Me Go", author: "George Matheson, 1882", theme: "Love of God", slides: [
+  { type:"verse", label:"Verse 1", text:"O Love that wilt not let me go,\nI rest my weary soul in Thee;\nI give Thee back the life I owe,\nThat in Thine ocean depths its flow\nMay richer, fuller be." },
+  { type:"verse", label:"Verse 2", text:"O Light that follow'st all my way,\nI yield my flick'ring torch to Thee;\nMy heart restores its borrow'd ray,\nThat in Thy sunshine's blaze its day\nMay brighter, fairer be." },
+  { type:"verse", label:"Verse 3", text:"O Joy that seekest me through pain,\nI cannot close my heart to Thee;\nI trace the rainbow through the rain,\nAnd feel the promise is not vain\nThat morn shall tearless be." },
+  { type:"verse", label:"Verse 4", text:"O Cross that liftest up my head,\nI dare not ask to fly from Thee;\nI lay in dust life's glory dead,\nAnd from the ground there blossoms red\nLife that shall endless be." }
+]},
+
+h034: { number: "34", title: "My Jesus, I Love Thee", author: "William R. Featherstone, 1864", theme: "Love of God", slides: [
+  { type:"verse", label:"Verse 1", text:"My Jesus, I love Thee, I know Thou art mine;\nFor Thee all the follies of sin I resign;\nMy gracious Redeemer, my Savior art Thou;\nIf ever I loved Thee, my Jesus, 'tis now." },
+  { type:"verse", label:"Verse 2", text:"I love Thee because Thou hast first loved me,\nAnd purchased my pardon on Calvary's tree;\nI love Thee for wearing the thorns on Thy brow;\nIf ever I loved Thee, my Jesus, 'tis now." },
+  { type:"verse", label:"Verse 3", text:"I'll love Thee in life, I will love Thee in death,\nAnd praise Thee as long as Thou lendest me breath;\nAnd say, when the death-dew lies cold on my brow,\nIf ever I loved Thee, my Jesus, 'tis now." },
+  { type:"verse", label:"Verse 4", text:"In mansions of glory and endless delight,\nI'll ever adore Thee in heaven so bright;\nI'll sing with the glittering crown on my brow,\nIf ever I loved Thee, my Jesus, 'tis now." }
+]},
+
+h035: { number: "35", title: "Love Divine, All Loves Excelling", author: "Charles Wesley, 1747", theme: "Love of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Love divine, all loves excelling,\nJoy of heav'n, to earth come down;\nFix in us Thy humble dwelling,\nAll Thy faithful mercies crown!\nJesus, Thou art all compassion,\nPure unbounded love Thou art;\nVisit us with Thy salvation;\nEnter every trembling heart." },
+  { type:"verse", label:"Verse 2", text:"Breathe, O breathe Thy loving Spirit\nInto every troubled breast!\nLet us all in Thee inherit;\nLet us find that second rest;\nTake away our bent to sinning;\nAlpha and Omega be;\nEnd of faith, as its beginning,\nSet our hearts at liberty." },
+  { type:"verse", label:"Verse 3", text:"Come, Almighty to deliver,\nLet us all Thy life receive;\nSuddenly return, and never,\nNevermore Thy temples leave:\nThee we would be always blessing,\nServe Thee as Thy hosts above,\nPray and praise Thee without ceasing,\nGlory in Thy perfect love." },
+  { type:"verse", label:"Verse 4", text:"Finish then Thy new creation,\nPure and spotless let us be;\nLet us see Thy great salvation\nPerfectly restored in Thee;\nChanged from glory into glory,\nTill in heav'n we take our place,\nTill we cast our crowns before Thee,\nLost in wonder, love, and praise." }
+]},
+
+h036: { number: "36", title: "I Will Sing of My Redeemer", author: "Philip P. Bliss, 1876", theme: "Redemption", slides: [
+  { type:"verse", label:"Verse 1", text:"I will sing of my Redeemer\nAnd His wondrous love to me;\nOn the cruel cross He suffered,\nFrom the curse to set me free." },
+  { type:"chorus", label:"Chorus", text:"Sing, O sing of my Redeemer,\nWith His blood He purchased me,\nOn the cross He sealed my pardon,\nPaid the debt and made me free." },
+  { type:"verse", label:"Verse 2", text:"I will tell the wondrous story,\nHow my lost estate to save,\nIn His boundless love and mercy,\nHe the ransom freely gave." },
+  { type:"verse", label:"Verse 3", text:"I will praise my dear Redeemer,\nHis triumphant power I'll tell,\nHow the victory He giveth\nOver sin, and death, and hell." },
+  { type:"verse", label:"Verse 4", text:"I will sing of my Redeemer\nAnd His heav'nly love to me;\nHe from death to life hath brought me,\nSon of God, with Him to be." }
+]},
+
+h037: { number: "37", title: "Tell Me the Old, Old Story", author: "Katherine Hankey, 1866", theme: "Gospel", slides: [
+  { type:"verse", label:"Verse 1", text:"Tell me the old, old story\nOf unseen things above,\nOf Jesus and His glory,\nOf Jesus and His love;\nTell me the story simply,\nAs to a little child,\nFor I am weak and weary,\nAnd helpless and defiled." },
+  { type:"chorus", label:"Chorus", text:"Tell me the old, old story,\nTell me the old, old story,\nTell me the old, old story\nOf Jesus and His love." },
+  { type:"verse", label:"Verse 2", text:"Tell me the story slowly,\nThat I may take it in,\nThat wonderful redemption,\nGod's remedy for sin;\nTell me the story often,\nFor I forget so soon;\nThe early dew of morning\nHas passed away at noon." },
+  { type:"verse", label:"Verse 3", text:"Tell me the same old story\nWhen you have cause to fear\nThat this world's empty glory\nIs costing me too dear;\nYes, and when that world's glory\nIs dawning on my soul,\nTell me the old, old story:\n'Christ Jesus makes thee whole.'" }
+]},
+
+h038: { number: "38", title: "Rescue the Perishing", author: "Fanny J. Crosby, 1869", theme: "Evangelism", slides: [
+  { type:"verse", label:"Verse 1", text:"Rescue the perishing, care for the dying,\nSnatch them in pity from sin and the grave;\nWeep o'er the erring one, lift up the fallen,\nTell them of Jesus, the mighty to save." },
+  { type:"chorus", label:"Chorus", text:"Rescue the perishing,\nCare for the dying;\nJesus is merciful,\nJesus will save." },
+  { type:"verse", label:"Verse 2", text:"Down in the human heart, crushed by the tempter,\nFeelings lie buried that grace can restore;\nTouched by a loving heart, wakened by kindness,\nChords that are broken will vibrate once more." },
+  { type:"verse", label:"Verse 3", text:"Rescue the perishing, duty demands it;\nStrength for thy labor the Lord will provide;\nBack to the narrow way patiently win them;\nTell the poor wanderer a Savior has died." }
+]},
+
+h039: { number: "39", title: "To the Work! To the Work!", author: "Fanny J. Crosby, 1869", theme: "Service & Mission", slides: [
+  { type:"verse", label:"Verse 1", text:"To the work! To the work! We are servants of God,\nLet us follow the path that our Master has trod;\nWith the balm of His counsel our strength to renew,\nLet us do with our might what our hands find to do." },
+  { type:"chorus", label:"Chorus", text:"Toiling on, toiling on,\nToiling on, toiling on;\nLet us hope, let us watch,\nAnd labor till the Master comes." },
+  { type:"verse", label:"Verse 2", text:"To the work! To the work! Let the hungry be fed;\nTo the fountain of life let the weary be led;\nIn the cross and its banner our glory shall be,\nWhile we herald the tidings, 'salvation is free!'" },
+  { type:"verse", label:"Verse 3", text:"To the work! To the work! There is labor for all;\nFor the kingdom of darkness and error shall fall;\nAnd the name of Jehovah exalted shall be\nIn the loud swelling chorus, 'salvation is free!'" }
+]},
+
+h040: { number: "40", title: "Ye Servants of God", author: "Charles Wesley, 1744", theme: "Service & Mission", slides: [
+  { type:"verse", label:"Verse 1", text:"Ye servants of God, your Master proclaim,\nAnd publish abroad His wonderful name;\nThe name all-victorious of Jesus extol;\nHis kingdom is glorious, He rules over all." },
+  { type:"verse", label:"Verse 2", text:"God ruleth on high, almighty to save;\nAnd still He is nigh, His presence we have;\nThe great congregation His triumph shall sing,\nAscribing salvation to Jesus our King." },
+  { type:"verse", label:"Verse 3", text:"Then let us adore and give Him His right,\nAll glory and power, all wisdom and might;\nAll honor and blessing, with angels above,\nAnd thanks never ceasing and infinite love." }
+]},
+
+h041: { number: "41", title: "It Is Well with My Soul", author: "Horatio G. Spafford, 1873", theme: "Peace & Surrender", slides: [
+  { type:"verse", label:"Verse 1", text:"When peace like a river attendeth my way,\nWhen sorrows like sea billows roll;\nWhatever my lot, Thou hast taught me to say,\nIt is well, it is well with my soul." },
+  { type:"chorus", label:"Chorus", text:"It is well with my soul,\nIt is well, it is well with my soul." },
+  { type:"verse", label:"Verse 2", text:"Though Satan should buffet, though trials should come,\nLet this blest assurance control:\nThat Christ hath regarded my helpless estate,\nAnd hath shed His own blood for my soul." },
+  { type:"verse", label:"Verse 3", text:"My sin — O the bliss of this glorious thought —\nMy sin, not in part, but the whole,\nIs nailed to the cross, and I bear it no more;\nPraise the Lord, praise the Lord, O my soul!" },
+  { type:"verse", label:"Verse 4", text:"And, Lord, haste the day when the faith shall be sight,\nThe clouds be rolled back as a scroll;\nThe trump shall resound and the Lord shall descend,\n'Even so' — it is well with my soul." }
+]},
+
+h042: { number: "42", title: "Like a River Glorious", author: "Frances R. Havergal, 1876", theme: "Peace & Rest", slides: [
+  { type:"verse", label:"Verse 1", text:"Like a river glorious is God's perfect peace,\nOver all victorious in its bright increase;\nPerfect, yet it floweth fuller every day,\nPerfect, yet it groweth deeper all the way." },
+  { type:"chorus", label:"Chorus", text:"Stayed upon Jehovah, hearts are fully blest;\nFinding, as He promised, perfect peace and rest." },
+  { type:"verse", label:"Verse 2", text:"Hidden in the hollow of His blessed hand,\nNever foe can follow, never traitor stand;\nNot a surge of worry, not a shade of care,\nNot a blast of hurry touch the spirit there." },
+  { type:"verse", label:"Verse 3", text:"Every joy or trial falleth from above,\nTraced upon our dial by the sun of love;\nWe may trust Him fully all for us to do;\nThey who trust Him wholly find Him wholly true." }
+]},
+
+h043: { number: "43", title: "Breathe on Me, Breath of God", author: "Edwin Hatch, 1878", theme: "Holy Spirit", slides: [
+  { type:"verse", label:"Verse 1", text:"Breathe on me, Breath of God,\nFill me with life anew,\nThat I may love what Thou dost love,\nAnd do what Thou wouldst do." },
+  { type:"verse", label:"Verse 2", text:"Breathe on me, Breath of God,\nUntil my heart is pure,\nUntil with Thee I will one will,\nTo do and to endure." },
+  { type:"verse", label:"Verse 3", text:"Breathe on me, Breath of God,\nTill I am wholly Thine,\nUntil this earthly part of me\nGlows with Thy fire divine." },
+  { type:"verse", label:"Verse 4", text:"Breathe on me, Breath of God,\nSo shall I never die,\nBut live with Thee the perfect life\nOf Thine eternity." }
+]},
+
+h044: { number: "44", title: "Spirit of God, Descend upon My Heart", author: "George Croly, 1854", theme: "Holy Spirit", slides: [
+  { type:"verse", label:"Verse 1", text:"Spirit of God, descend upon my heart;\nWean it from earth, through all its pulses move;\nStoop to my weakness, mighty as Thou art,\nAnd make me love Thee as I ought to love." },
+  { type:"verse", label:"Verse 2", text:"I ask no dream, no prophet ecstasies,\nNo sudden rending of the veil of clay,\nNo angel visitant, no op'ning skies;\nBut take the dimness of my soul away." },
+  { type:"verse", label:"Verse 3", text:"Hast Thou not bid me love Thee, God and King?\nAll, all Thine own — soul, heart, and strength, and mind;\nI see Thy cross — there teach my heart to cling:\nO let me seek Thee and O let me find!" },
+  { type:"verse", label:"Verse 4", text:"Teach me to feel that Thou art always nigh;\nTeach me the struggles of the soul to bear,\nTo check the rising doubt, the rebel sigh;\nTeach me the patience of unanswered prayer." }
+]},
+
+h045: { number: "45", title: "Come, Holy Spirit, Heavenly Dove", author: "Isaac Watts, 1709", theme: "Holy Spirit", slides: [
+  { type:"verse", label:"Verse 1", text:"Come, Holy Spirit, heav'nly Dove,\nWith all Thy quick'ning powers;\nKindle a flame of sacred love\nIn these cold hearts of ours." },
+  { type:"verse", label:"Verse 2", text:"Look how we grovel here below,\nFond of these trifling toys;\nOur souls can neither fly nor go\nTo reach eternal joys." },
+  { type:"verse", label:"Verse 3", text:"In vain we tune our formal songs,\nIn vain we strive to rise;\nHosannas languish on our tongues,\nAnd our devotion dies." },
+  { type:"verse", label:"Verse 4", text:"Come, Holy Spirit, heav'nly Dove,\nWith all Thy quick'ning powers;\nCome, shed abroad a Savior's love\nAnd that shall kindle ours." }
+]},
+
+h046: { number: "46", title: "My Hope Is Built on Nothing Less", author: "Edward Mote, 1834", theme: "Hope & Trust", slides: [
+  { type:"verse", label:"Verse 1", text:"My hope is built on nothing less\nThan Jesus' blood and righteousness;\nI dare not trust the sweetest frame,\nBut wholly lean on Jesus' name." },
+  { type:"chorus", label:"Chorus", text:"On Christ, the solid Rock, I stand;\nAll other ground is sinking sand,\nAll other ground is sinking sand." },
+  { type:"verse", label:"Verse 2", text:"When darkness veils His lovely face,\nI rest on His unchanging grace;\nIn every high and stormy gale,\nMy anchor holds within the veil." },
+  { type:"verse", label:"Verse 3", text:"His oath, His covenant, His blood,\nSupport me in the whelming flood;\nWhen all around my soul gives way,\nHe then is all my hope and stay." },
+  { type:"verse", label:"Verse 4", text:"When He shall come with trumpet sound,\nO may I then in Him be found!\nDressed in His righteousness alone,\nFaultless to stand before the throne." }
+]},
+
+h047: { number: "47", title: "The Lord's My Shepherd", author: "Scottish Psalter, 1650", theme: "God's Care", slides: [
+  { type:"verse", label:"Verse 1", text:"The Lord's my Shepherd, I'll not want;\nHe makes me down to lie\nIn pastures green; He leadeth me\nThe quiet waters by." },
+  { type:"verse", label:"Verse 2", text:"My soul He doth restore again,\nAnd me to walk doth make\nWithin the paths of righteousness,\nEv'n for His own name's sake." },
+  { type:"verse", label:"Verse 3", text:"Yea, though I walk in death's dark vale,\nYet will I fear no ill;\nFor Thou art with me, and Thy rod\nAnd staff me comfort still." },
+  { type:"verse", label:"Verse 4", text:"My table Thou hast furnished me\nIn presence of my foes;\nMy head Thou dost with oil anoint,\nAnd my cup overflows." },
+  { type:"verse", label:"Verse 5", text:"Goodness and mercy all my life\nShall surely follow me;\nAnd in God's house for evermore\nMy dwelling-place shall be." }
+]},
+
+h048: { number: "48", title: "What a Friend We Have in Jesus", author: "Joseph M. Scriven, 1855", theme: "Prayer & Comfort", slides: [
+  { type:"verse", label:"Verse 1", text:"What a friend we have in Jesus,\nAll our sins and griefs to bear!\nWhat a privilege to carry\nEverything to God in prayer!\nO what peace we often forfeit,\nO what needless pain we bear,\nAll because we do not carry\nEverything to God in prayer!" },
+  { type:"verse", label:"Verse 2", text:"Have we trials and temptations?\nIs there trouble anywhere?\nWe should never be discouraged;\nTake it to the Lord in prayer.\nCan we find a friend so faithful\nWho will all our sorrows share?\nJesus knows our every weakness;\nTake it to the Lord in prayer." },
+  { type:"verse", label:"Verse 3", text:"Are we weak and heavy laden,\nCumbered with a load of care?\nPrecious Savior, still our refuge;\nTake it to the Lord in prayer.\nDo thy friends despise, forsake thee?\nTake it to the Lord in prayer!\nIn His arms He'll take and shield thee;\nThou wilt find a solace there." }
+]},
+
+h049: { number: "49", title: "Sweet Hour of Prayer", author: "William W. Walford, 1845", theme: "Prayer & Communion", slides: [
+  { type:"verse", label:"Verse 1", text:"Sweet hour of prayer! Sweet hour of prayer!\nThat calls me from a world of care,\nAnd bids me at my Father's throne\nMake all my wants and wishes known;\nIn seasons of distress and grief,\nMy soul has often found relief,\nAnd oft escaped the tempter's snare\nBy thy return, sweet hour of prayer!" },
+  { type:"verse", label:"Verse 2", text:"Sweet hour of prayer! Sweet hour of prayer!\nThy wings shall my petition bear\nTo Him whose truth and faithfulness\nEngage the waiting soul to bless;\nAnd since He bids me seek His face,\nBelieve His word and trust His grace,\nI'll cast on Him my every care,\nAnd wait for thee, sweet hour of prayer!" },
+  { type:"verse", label:"Verse 3", text:"Sweet hour of prayer! Sweet hour of prayer!\nMay I thy consolation share,\nTill, from Mount Pisgah's lofty height,\nI view my home and take my flight;\nThis robe of flesh I'll drop and rise\nTo seize the everlasting prize,\nAnd shout, while passing through the air,\nFarewell, farewell, sweet hour of prayer!" }
+]},
+
+h050: { number: "50", title: "Take My Life and Let It Be", author: "Frances R. Havergal, 1874", theme: "Surrender & Consecration", slides: [
+  { type:"verse", label:"Verse 1", text:"Take my life and let it be\nConse-crated, Lord, to Thee;\nTake my moments and my days,\nLet them flow in ceaseless praise." },
+  { type:"verse", label:"Verse 2", text:"Take my hands and let them move\nAt the impulse of Thy love;\nTake my feet and let them be\nSwift and beautiful for Thee." },
+  { type:"verse", label:"Verse 3", text:"Take my voice and let me sing\nAlways, only for my King;\nTake my lips and let them be\nFilled with messages from Thee." },
+  { type:"verse", label:"Verse 4", text:"Take my will and make it Thine,\nIt shall be no longer mine;\nTake my heart, it is Thine own,\nIt shall be Thy royal throne." },
+  { type:"verse", label:"Verse 5", text:"Take my love; my Lord, I pour\nAt Thy feet its treasure store;\nTake myself and I will be\nEver, only, all for Thee." }
+]},
+
+h051: { number: "51", title: "I Surrender All", author: "Judson W. Van DeVenter, 1896", theme: "Surrender & Consecration", slides: [
+  { type:"verse", label:"Verse 1", text:"All to Jesus I surrender,\nAll to Him I freely give;\nI will ever love and trust Him,\nIn His presence daily live." },
+  { type:"chorus", label:"Chorus", text:"I surrender all, I surrender all;\nAll to Thee, my blessèd Savior,\nI surrender all." },
+  { type:"verse", label:"Verse 2", text:"All to Jesus I surrender,\nMake me, Savior, wholly Thine;\nLet me feel the Holy Spirit,\nTruly know that Thou art mine." },
+  { type:"verse", label:"Verse 3", text:"All to Jesus I surrender,\nLord, I give myself to Thee;\nFill me with Thy love and power,\nLet Thy blessing fall on me." }
+]},
+
+h052: { number: "52", title: "Nothing but the Blood of Jesus", author: "Robert Lowry, 1876", theme: "Blood of Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"What can wash away my sin?\nNothing but the blood of Jesus;\nWhat can make me whole again?\nNothing but the blood of Jesus." },
+  { type:"chorus", label:"Chorus", text:"O precious is the flow\nThat makes me white as snow;\nNo other fount I know,\nNothing but the blood of Jesus." },
+  { type:"verse", label:"Verse 2", text:"For my pardon, this I see,\nNothing but the blood of Jesus;\nFor my cleansing this my plea,\nNothing but the blood of Jesus." },
+  { type:"verse", label:"Verse 3", text:"Nothing can for sin atone,\nNothing but the blood of Jesus;\nNaught of good that I have done,\nNothing but the blood of Jesus." },
+  { type:"verse", label:"Verse 4", text:"This is all my hope and peace,\nNothing but the blood of Jesus;\nThis is all my righteousness,\nNothing but the blood of Jesus." }
+]},
+
+h053: { number: "53", title: "Are You Washed in the Blood?", author: "Elisha A. Hoffman, 1878", theme: "Blood of Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"Have you been to Jesus for the cleansing power?\nAre you washed in the blood of the Lamb?\nAre you fully trusting in His grace this hour?\nAre you washed in the blood of the Lamb?" },
+  { type:"chorus", label:"Chorus", text:"Are you washed in the blood,\nIn the soul-cleansing blood of the Lamb?\nAre your garments spotless? Are they white as snow?\nAre you washed in the blood of the Lamb?" },
+  { type:"verse", label:"Verse 2", text:"Are you walking daily by the Savior's side?\nAre you washed in the blood of the Lamb?\nDo you rest each moment in the Crucified?\nAre you washed in the blood of the Lamb?" },
+  { type:"verse", label:"Verse 3", text:"When the Bridegroom cometh will your robes be white,\nAre you washed in the blood of the Lamb?\nWill your soul be ready for the mansions bright,\nAre you washed in the blood of the Lamb?" }
+]},
+
+h054: { number: "54", title: "Trust and Obey", author: "John H. Sammis, 1887", theme: "Trust & Obedience", slides: [
+  { type:"verse", label:"Verse 1", text:"When we walk with the Lord\nIn the light of His Word,\nWhat a glory He sheds on our way!\nWhile we do His good will,\nHe abides with us still,\nAnd with all who will trust and obey." },
+  { type:"chorus", label:"Chorus", text:"Trust and obey,\nFor there's no other way\nTo be happy in Jesus,\nBut to trust and obey." },
+  { type:"verse", label:"Verse 2", text:"Not a shadow can rise,\nNot a cloud in the skies,\nBut His smile quickly drives it away;\nNot a doubt nor a fear,\nNot a sigh nor a tear,\nCan abide while we trust and obey." },
+  { type:"verse", label:"Verse 3", text:"Not a burden we bear,\nNot a sorrow we share,\nBut our toil He doth richly repay;\nNot a grief or a loss,\nNot a frown or a cross,\nBut is blest if we trust and obey." },
+  { type:"verse", label:"Verse 4", text:"Then in fellowship sweet\nWe will sit at His feet,\nOr we'll walk by His side in the way;\nWhat He says we will do,\nWhere He sends we will go,\nNever fear, only trust and obey." }
+]},
+
+h055: { number: "55", title: "A Mighty Fortress Is Our God", author: "Martin Luther, 1529", theme: "Strength & Victory", slides: [
+  { type:"verse", label:"Verse 1", text:"A mighty fortress is our God,\nA bulwark never failing;\nOur helper He amid the flood\nOf mortal ills prevailing;\nFor still our ancient foe\nDoth seek to work us woe;\nHis craft and power are great,\nAnd armed with cruel hate,\nOn earth is not his equal." },
+  { type:"verse", label:"Verse 2", text:"Did we in our own strength confide,\nOur striving would be losing;\nWere not the right Man on our side,\nThe Man of God's own choosing;\nDost ask who that may be?\nChrist Jesus, it is He;\nLord Sabaoth His name,\nFrom age to age the same,\nAnd He must win the battle." },
+  { type:"verse", label:"Verse 3", text:"And though this world, with devils filled,\nShould threaten to undo us,\nWe will not fear, for God hath willed\nHis truth to triumph through us;\nThe prince of darkness grim,\nWe tremble not for him;\nHis rage we can endure,\nFor lo! his doom is sure;\nOne little word shall fell him." },
+  { type:"verse", label:"Verse 4", text:"That word above all earthly powers,\nNo thanks to them, abideth;\nThe Spirit and the gifts are ours\nThrough Him who with us sideth;\nLet goods and kindred go,\nThis mortal life also;\nThe body they may kill;\nGod's truth abideth still;\nHis kingdom is forever." }
+]},
+
+h056: { number: "56", title: "Onward, Christian Soldiers", author: "Sabine Baring-Gould, 1865", theme: "Strength & Warfare", slides: [
+  { type:"verse", label:"Verse 1", text:"Onward, Christian soldiers,\nMarching as to war,\nWith the cross of Jesus\nGoing on before!\nChrist, the royal Master,\nLeads against the foe;\nForward into battle\nSee His banners go!" },
+  { type:"chorus", label:"Chorus", text:"Onward, Christian soldiers,\nMarching as to war,\nWith the cross of Jesus\nGoing on before!" },
+  { type:"verse", label:"Verse 2", text:"At the sign of triumph\nSatan's host doth flee;\nOn then, Christian soldiers,\nOn to victory!\nHell's foundations quiver\nAt the shout of praise;\nBrothers, lift your voices,\nLoud your anthems raise." },
+  { type:"verse", label:"Verse 3", text:"Like a mighty army\nMoves the Church of God;\nBrothers, we are treading\nWhere the saints have trod;\nWe are not divided,\nAll one body we,\nOne in hope and doctrine,\nOne in charity." },
+  { type:"verse", label:"Verse 4", text:"Crowns and thrones may perish,\nKingdoms rise and wane,\nBut the Church of Jesus\nConstant will remain;\nGates of hell can never\n'Gainst that Church prevail;\nWe have Christ's own promise,\nAnd that cannot fail." }
+]},
+
+h057: { number: "57", title: "Fight the Good Fight", author: "John S. B. Monsell, 1863", theme: "Strength & Warfare", slides: [
+  { type:"verse", label:"Verse 1", text:"Fight the good fight with all thy might,\nChrist is thy strength and Christ thy right;\nLay hold on life, and it shall be\nThy joy and crown eternally." },
+  { type:"verse", label:"Verse 2", text:"Run the straight race through God's good grace,\nLift up thine eyes and seek His face;\nLife with its way before us lies,\nChrist is the path, and Christ the prize." },
+  { type:"verse", label:"Verse 3", text:"Cast care aside, lean on thy Guide,\nHis boundless mercy will provide;\nTrust, and thy trusting soul shall prove\nChrist is its life, and Christ its love." },
+  { type:"verse", label:"Verse 4", text:"Faint not nor fear, His arms are near,\nHe changeth not and thou art dear;\nOnly believe, and thou shalt see\nThat Christ is all in all to thee." }
+]},
+
+h058: { number: "58", title: "Lo! He Comes with Clouds Descending", author: "Charles Wesley, 1758", theme: "Second Coming", slides: [
+  { type:"verse", label:"Verse 1", text:"Lo! He comes with clouds descending,\nOnce for favored sinners slain;\nThousand thousand saints attending\nSwell the triumph of His train:\nHallelujah! Hallelujah! Hallelujah!\nGod appears on earth to reign." },
+  { type:"verse", label:"Verse 2", text:"Every eye shall now behold Him\nRobed in dreadful majesty;\nThose who set at naught and sold Him,\nPierced and nailed Him to the tree,\nDeeply wailing, deeply wailing, deeply wailing,\nShall the true Messiah see." },
+  { type:"verse", label:"Verse 3", text:"Those dear tokens of His passion\nStill His dazzling body bears,\nCause of endless exultation\nTo His ransomed worshippers:\nWith what rapture, with what rapture, with what rapture,\nGaze we on those glorious scars!" },
+  { type:"verse", label:"Verse 4", text:"Yea, amen! Let all adore Thee,\nHigh on Thine eternal throne;\nSavior, take the power and glory,\nClaim the kingdom for Thine own:\nO come quickly, O come quickly, O come quickly!\nHallelujah! Come, Lord, come!" }
+]},
+
+h059: { number: "59", title: "When the Roll Is Called Up Yonder", author: "James M. Black, 1893", theme: "Eternal Life", slides: [
+  { type:"verse", label:"Verse 1", text:"When the trumpet of the Lord shall sound,\nAnd time shall be no more,\nAnd the morning breaks, eternal, bright and fair;\nWhen the saved of earth shall gather\nOver on the other shore,\nAnd the roll is called up yonder, I'll be there!" },
+  { type:"chorus", label:"Chorus", text:"When the roll is called up yonder,\nWhen the roll is called up yonder,\nWhen the roll is called up yonder,\nWhen the roll is called up yonder, I'll be there!" },
+  { type:"verse", label:"Verse 2", text:"On that bright and cloudless morning\nWhen the dead in Christ shall rise,\nAnd the glory of His resurrection share;\nWhen His chosen ones shall gather\nTo their home beyond the skies,\nAnd the roll is called up yonder, I'll be there!" },
+  { type:"verse", label:"Verse 3", text:"Let us labor for the Master\nFrom the dawn till setting sun,\nLet us talk of all His wondrous love and care;\nThen when all of life is over\nAnd our work on earth is done,\nAnd the roll is called up yonder, I'll be there!" }
+]},
+
+h060: { number: "60", title: "When We All Get to Heaven", author: "Eliza E. Hewitt, 1898", theme: "Eternal Life", slides: [
+  { type:"verse", label:"Verse 1", text:"Sing the wondrous love of Jesus,\nSing His mercy and His grace;\nIn the mansions bright and blessed\nHe'll prepare for us a place." },
+  { type:"chorus", label:"Chorus", text:"When we all get to heaven,\nWhat a day of rejoicing that will be!\nWhen we all see Jesus,\nWe'll sing and shout the victory!" },
+  { type:"verse", label:"Verse 2", text:"While we walk the pilgrim pathway,\nClouds will overspread the sky;\nBut when trav'ling days are over,\nNot a shadow, not a sigh." },
+  { type:"verse", label:"Verse 3", text:"Let us then be true and faithful,\nTrusting, serving every day;\nJust one glimpse of Him in glory\nWill the toils of life repay." },
+  { type:"verse", label:"Verse 4", text:"Onward to the prize before us!\nSoon His beauty we'll behold;\nSoon the pearly gates will open;\nWe shall tread the streets of gold." }
+]},
+
+h061: { number: "61", title: "Face to Face with Christ My Savior", author: "Carrie E. Breck, 1898", theme: "Eternal Life", slides: [
+  { type:"verse", label:"Verse 1", text:"Face to face with Christ my Savior,\nFace to face — what will it be?\nWhen with rapture I behold Him,\nJesus Christ who died for me." },
+  { type:"chorus", label:"Chorus", text:"Face to face shall I behold Him,\nFar beyond the starry sky;\nFace to face in all His glory,\nI shall see Him by and by!" },
+  { type:"verse", label:"Verse 2", text:"Only faintly now I see Him,\nWith the darkling veil between;\nBut a blessèd day is coming\nWhen His glory shall be seen." },
+  { type:"verse", label:"Verse 3", text:"What rejoicing in His presence,\nWhen are banished grief and pain;\nWhen the crooked ways are straightened\nAnd the dark things shall be plain." },
+  { type:"verse", label:"Verse 4", text:"Face to face! O blissful moment!\nFace to face — to see and know;\nFace to face with my Redeemer,\nJesus Christ who loves me so." }
+]},
+
+h062: { number: "62", title: "Shall We Gather at the River", author: "Robert Lowry, 1864", theme: "Eternal Life", slides: [
+  { type:"verse", label:"Verse 1", text:"Shall we gather at the river,\nWhere bright angel feet have trod,\nWith its crystal tide forever\nFlowing by the throne of God?" },
+  { type:"chorus", label:"Chorus", text:"Yes, we'll gather at the river,\nThe beautiful, the beautiful river;\nGather with the saints at the river\nThat flows by the throne of God." },
+  { type:"verse", label:"Verse 2", text:"On the margin of the river,\nWashing up its silver spray,\nWe will talk and worship ever,\nAll the happy golden day." },
+  { type:"verse", label:"Verse 3", text:"Ere we reach the shining river,\nLay we every burden down;\nGrace our spirits will deliver,\nAnd provide a robe and crown." },
+  { type:"verse", label:"Verse 4", text:"Soon we'll reach the silver river,\nSoon our pilgrimage will cease;\nSoon our happy hearts will quiver\nWith the melody of peace." }
+]},
+
+h063: { number: "63", title: "This Is My Father's World", author: "Maltbie D. Babcock, 1901", theme: "Creation & Providence", slides: [
+  { type:"verse", label:"Verse 1", text:"This is my Father's world,\nAnd to my list'ning ears,\nAll nature sings, and round me rings\nThe music of the spheres.\nThis is my Father's world:\nI rest me in the thought\nOf rocks and trees, of skies and seas;\nHis hand the wonders wrought." },
+  { type:"verse", label:"Verse 2", text:"This is my Father's world,\nThe birds their carols raise,\nThe morning light, the lily white,\nDeclare their Maker's praise.\nThis is my Father's world:\nHe shines in all that's fair;\nIn the rustling grass I hear Him pass,\nHe speaks to me everywhere." },
+  { type:"verse", label:"Verse 3", text:"This is my Father's world,\nO let me ne'er forget\nThat though the wrong seems oft so strong,\nGod is the Ruler yet.\nThis is my Father's world:\nThe battle is not done;\nJesus who died shall be satisfied,\nAnd earth and heav'n be one." }
+]},
+
+h064: { number: "64", title: "For the Beauty of the Earth", author: "Folliott S. Pierpoint, 1864", theme: "Thanksgiving", slides: [
+  { type:"verse", label:"Verse 1", text:"For the beauty of the earth,\nFor the glory of the skies,\nFor the love which from our birth\nOver and around us lies." },
+  { type:"chorus", label:"Chorus", text:"Lord of all, to Thee we raise\nThis our hymn of grateful praise." },
+  { type:"verse", label:"Verse 2", text:"For the beauty of each hour\nOf the day and of the night,\nHill and vale, and tree and flower,\nSun and moon and stars of light." },
+  { type:"verse", label:"Verse 3", text:"For the joy of human love,\nBrother, sister, parent, child,\nFriends on earth and friends above,\nFor all gentle thoughts and mild." },
+  { type:"verse", label:"Verse 4", text:"For Thy church, that evermore\nLifteth holy hands above,\nOffering up on every shore\nHer pure sacrifice of love." }
+]},
+
+h065: { number: "65", title: "Now Thank We All Our God", author: "Martin Rinkart, 1636", theme: "Thanksgiving", slides: [
+  { type:"verse", label:"Verse 1", text:"Now thank we all our God\nWith heart and hands and voices,\nWho wondrous things has done,\nIn whom His world rejoices;\nWho from our mothers' arms\nHas blessed us on our way\nWith countless gifts of love,\nAnd still is ours today." },
+  { type:"verse", label:"Verse 2", text:"O may this bounteous God\nThrough all our life be near us,\nWith ever joyful hearts\nAnd blessed peace to cheer us;\nAnd keep us in His grace,\nAnd guide us when perplexed,\nAnd free us from all ills\nIn this world and the next." },
+  { type:"verse", label:"Verse 3", text:"All praise and thanks to God\nThe Father now be given,\nThe Son, and Him who reigns\nWith them in highest heaven,\nThe one eternal God,\nWhom earth and heav'n adore;\nFor thus it was, is now,\nAnd shall be evermore." }
+]},
+
+h066: { number: "66", title: "Count Your Blessings", author: "Johnson Oatman Jr., 1897", theme: "Thanksgiving", slides: [
+  { type:"verse", label:"Verse 1", text:"When upon life's billows you are tempest-tossed,\nWhen you are discouraged, thinking all is lost,\nCount your many blessings, name them one by one,\nAnd it will surprise you what the Lord hath done." },
+  { type:"chorus", label:"Chorus", text:"Count your blessings, name them one by one,\nCount your blessings, see what God hath done!\nCount your blessings, name them one by one,\nAnd it will surprise you what the Lord hath done." },
+  { type:"verse", label:"Verse 2", text:"Are you ever burdened with a load of care?\nDoes the cross seem heavy you are called to bear?\nCount your many blessings, every doubt will fly,\nAnd you will keep singing as the days go by." },
+  { type:"verse", label:"Verse 3", text:"When you look at others with their lands and gold,\nThink that Christ has promised you His wealth untold;\nCount your many blessings, wealth can never buy\nYour reward in heaven, nor your home on high." },
+  { type:"verse", label:"Verse 4", text:"So, amid the conflict whether great or small,\nDo not be disheartened, God is over all;\nCount your many blessings, angels will attend,\nHelp and comfort give you to your journey's end." }
+]},
+
+h067: { number: "67", title: "Fairest Lord Jesus", author: "German Hymn, 1677", theme: "Jesus Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"Fairest Lord Jesus!\nRuler of all nature!\nO Thou of God and man the Son!\nThee will I cherish,\nThee will I honor,\nThou, my soul's glory, joy, and crown!" },
+  { type:"verse", label:"Verse 2", text:"Fair are the meadows,\nFairer still the woodlands,\nRobed in the blooming garb of spring:\nJesus is fairer,\nJesus is purer,\nWho makes the woeful heart to sing." },
+  { type:"verse", label:"Verse 3", text:"Fair is the sunshine,\nFairer still the moonlight,\nAnd all the twinkling, starry host:\nJesus shines brighter,\nJesus shines purer\nThan all the angels heav'n can boast." },
+  { type:"verse", label:"Verse 4", text:"Beautiful Savior!\nLord of all the nations!\nSon of God and Son of Man!\nGlory and honor,\nPraise, adoration,\nNow and forevermore be Thine." }
+]},
+
+h068: { number: "68", title: "Jesus, the Very Thought of Thee", author: "Bernard of Clairvaux, 1150", theme: "Jesus Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"Jesus, the very thought of Thee\nWith sweetness fills my breast;\nBut sweeter far Thy face to see\nAnd in Thy presence rest." },
+  { type:"verse", label:"Verse 2", text:"Nor voice can sing, nor heart can frame,\nNor can the mem'ry find\nA sweeter sound than Thy blest name,\nO Savior of mankind!" },
+  { type:"verse", label:"Verse 3", text:"O hope of every contrite heart,\nO joy of all the meek,\nTo those who fall, how kind Thou art!\nHow good to those who seek!" },
+  { type:"verse", label:"Verse 4", text:"But what to those who find? Ah, this\nNor tongue nor pen can show;\nThe love of Jesus, what it is,\nNone but His loved ones know." },
+  { type:"verse", label:"Verse 5", text:"Jesus, our only joy be Thou,\nAs Thou our prize will be;\nJesus, be Thou our glory now,\nAnd through eternity." }
+]},
+
+h069: { number: "69", title: "Thou Art the Way, to Thee Alone", author: "George W. Doane, 1824", theme: "Jesus Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"Thou art the Way, to Thee alone\nFrom sin and death we flee;\nAnd he who would the Father seek\nMust seek Him, Lord, by Thee." },
+  { type:"verse", label:"Verse 2", text:"Thou art the Truth, Thy Word alone\nTrue wisdom can impart;\nThou only canst inform the mind\nAnd purify the heart." },
+  { type:"verse", label:"Verse 3", text:"Thou art the Life, the rending tomb\nProclaims Thy conqu'ring arm;\nAnd those who put their trust in Thee\nNor death nor hell shall harm." },
+  { type:"verse", label:"Verse 4", text:"Thou art the Way, the Truth, the Life;\nGrant us that Way to know,\nThat Truth to keep, that Life to win,\nWhose joys eternal flow." }
+]},
+
+h070: { number: "70", title: "Praise Him! Praise Him!", author: "Fanny J. Crosby, 1869", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"Praise Him! Praise Him! Jesus, our blessèd Redeemer!\nSing, O Earth, His wonderful love proclaim!\nHail Him! Hail Him! Highest archangels in glory;\nStrength and honor give to His holy name!\nLike a shepherd, Jesus will guard His children,\nIn His arms He carries them all day long:" },
+  { type:"chorus", label:"Chorus", text:"Praise Him! Praise Him!\nTell of His excellent greatness;\nPraise Him! Praise Him!\nEver in joyful song!" },
+  { type:"verse", label:"Verse 2", text:"Praise Him! Praise Him! Jesus, our blessèd Redeemer!\nFor our sins He suffered, and bled, and died;\nHe our Rock, our hope of eternal salvation,\nHail Him! Hail Him! Jesus the Crucified.\nSound His praises! Jesus who bore our sorrows,\nLove unbounded, wonderful, deep and strong:" },
+  { type:"verse", label:"Verse 3", text:"Praise Him! Praise Him! Jesus, our blessèd Redeemer!\nHeav'nly portals loud with hosannas ring!\nJesus, Savior, reigneth forever and ever;\nCrown Him! Crown Him! Prophet and Priest and King!\nChrist is coming! Over the world victorious,\nPow'r and glory unto the Lord belong:" }
+]},
+
+h071: { number: "71", title: "Break Thou the Bread of Life", author: "Mary A. Lathbury, 1877", theme: "Word of God", slides: [
+  { type:"verse", label:"Verse 1", text:"Break Thou the bread of life,\nDear Lord, to me,\nAs Thou didst break the loaves\nBeside the sea;\nBeyond the sacred page\nI seek Thee, Lord;\nMy spirit pants for Thee,\nO living Word!" },
+  { type:"verse", label:"Verse 2", text:"Bless Thou the truth, dear Lord,\nTo me, to me,\nAs Thou didst bless the bread\nBy Galilee;\nThen shall all bondage cease,\nAll fetters fall;\nAnd I shall find my peace,\nMy all in all." },
+  { type:"verse", label:"Verse 3", text:"Thou art the bread of life,\nO Lord, to me,\nThy holy Word the truth\nThat saveth me;\nGive me to eat and live\nWith Thee above;\nTeach me to love Thy truth,\nFor Thou art love." }
+]},
+
+h072: { number: "72", title: "How Firm a Foundation", author: "John Rippon, 1787", theme: "Word of God", slides: [
+  { type:"verse", label:"Verse 1", text:"How firm a foundation, ye saints of the Lord,\nIs laid for your faith in His excellent Word!\nWhat more can He say than to you He hath said,\nTo you who for refuge to Jesus have fled?" },
+  { type:"verse", label:"Verse 2", text:"In every condition, in sickness, in health,\nIn poverty's vale, or abounding in wealth,\nAt home and abroad, on the land, on the sea,\nAs thy days may demand, shall thy strength ever be." },
+  { type:"verse", label:"Verse 3", text:"Fear not, I am with thee; O be not dismayed,\nFor I am thy God, and will still give thee aid;\nI'll strengthen thee, help thee, and cause thee to stand,\nUpheld by My righteous, omnipotent hand." },
+  { type:"verse", label:"Verse 4", text:"When through the deep waters I call thee to go,\nThe rivers of sorrow shall not overflow;\nFor I will be with thee, thy troubles to bless,\nAnd sanctify to thee thy deepest distress." },
+  { type:"verse", label:"Verse 5", text:"The soul that on Jesus has leaned for repose,\nI will not, I will not desert to its foes;\nThat soul, though all hell should endeavor to shake,\nI'll never, no, never, no, never forsake!" }
+]},
+
+h073: { number: "73", title: "Blessed Be the Name", author: "Charles Wesley / William H. Clark", theme: "Praise & Worship", slides: [
+  { type:"verse", label:"Verse 1", text:"All praise to Him who reigns above\nIn majesty supreme,\nWho gave His Son for man to die,\nThat He might man redeem!" },
+  { type:"chorus", label:"Chorus", text:"Blessed be the name, blessed be the name,\nBlessed be the name of the Lord!\nBlessed be the name, blessed be the name,\nBlessed be the name of the Lord!" },
+  { type:"verse", label:"Verse 2", text:"His name above all names shall stand,\nExalted more and more,\nAt God the Father's own right hand,\nWhere angel hosts adore." },
+  { type:"verse", label:"Verse 3", text:"Redeemer, Savior, Friend of man\nOnce ruined by the fall,\nThou hast devised salvation's plan,\nFor Thou hast died for all." }
+]},
+
+h074: { number: "74", title: "Come, Thou Fount of Every Blessing", author: "Robert Robinson, 1758", theme: "Grace & Devotion", slides: [
+  { type:"verse", label:"Verse 1", text:"Come, Thou Fount of every blessing,\nTune my heart to sing Thy grace;\nStreams of mercy, never ceasing,\nCall for songs of loudest praise.\nTeach me some melodious sonnet,\nSung by flaming tongues above;\nPraise the mount! I'm fixed upon it,\nMount of Thy redeeming love." },
+  { type:"verse", label:"Verse 2", text:"Here I raise mine Ebenezer;\nHither by Thy help I'm come;\nAnd I hope, by Thy good pleasure,\nSafely to arrive at home.\nJesus sought me when a stranger,\nWand'ring from the fold of God;\nHe, to rescue me from danger,\nInterposed His precious blood." },
+  { type:"verse", label:"Verse 3", text:"O to grace how great a debtor\nDaily I'm constrained to be!\nLet that grace now like a fetter\nBind my wand'ring heart to Thee.\nProne to wander, Lord, I feel it,\nProne to leave the God I love;\nHere's my heart, O take and seal it;\nSeal it for Thy courts above." }
+]},
+
+h075: { number: "75", title: "The Old Rugged Cross", author: "George Bennard, 1913", theme: "Cross & Atonement", slides: [
+  { type:"verse", label:"Verse 1", text:"On a hill far away stood an old rugged cross,\nThe emblem of suff'ring and shame;\nAnd I love that old cross where the Dearest and Best\nFor a world of lost sinners was slain." },
+  { type:"chorus", label:"Chorus", text:"So I'll cherish the old rugged cross,\nTill my trophies at last I lay down;\nI will cling to the old rugged cross,\nAnd exchange it some day for a crown." },
+  { type:"verse", label:"Verse 2", text:"O that old rugged cross, so despised by the world,\nHas a wondrous attraction for me;\nFor the dear Lamb of God left His glory above\nTo bear it to dark Calvary." },
+  { type:"verse", label:"Verse 3", text:"In that old rugged cross, stained with blood so divine,\nA wondrous beauty I see;\nFor 'twas on that old cross Jesus suffered and died\nTo pardon and sanctify me." },
+  { type:"verse", label:"Verse 4", text:"To the old rugged cross I will ever be true,\nIts shame and reproach gladly bear;\nThen He'll call me some day to my home far away,\nWhere His glory forever I'll share." }
+]},
+
+h076: { number: "76", title: "Near the Cross", author: "Fanny J. Crosby, 1869", theme: "Cross & Atonement", slides: [
+  { type:"verse", label:"Verse 1", text:"Jesus, keep me near the cross;\nThere a precious fountain\nFree to all — a healing stream\nFlows from Calv'ry's mountain." },
+  { type:"chorus", label:"Chorus", text:"In the cross, in the cross,\nBe my glory ever;\nTill my raptured soul shall find\nRest beyond the river." },
+  { type:"verse", label:"Verse 2", text:"Near the cross, a trembling soul,\nLove and mercy found me;\nThere the bright and morning star\nSheds its beams around me." },
+  { type:"verse", label:"Verse 3", text:"Near the cross! O Lamb of God,\nBring its scenes before me;\nHelp me walk from day to day\nWith its shadow o'er me." }
+]},
+
+h077: { number: "77", title: "Hallelujah! What a Savior", author: "Philip P. Bliss, 1875", theme: "Jesus Christ", slides: [
+  { type:"verse", label:"Verse 1", text:"Man of sorrows! What a name\nFor the Son of God who came\nRuined sinners to reclaim!\nHallelujah! What a Savior!" },
+  { type:"verse", label:"Verse 2", text:"Bearing shame and scoffing rude,\nIn my place condemned He stood;\nSealed my pardon with His blood:\nHallelujah! What a Savior!" },
+  { type:"verse", label:"Verse 3", text:"Guilty, vile, and helpless we;\nSpotless Lamb of God was He;\nFull atonement! Can it be?\nHallelujah! What a Savior!" },
+  { type:"verse", label:"Verse 4", text:"Lifted up was He to die,\n'It is finished!' was His cry;\nNow in heav'n exalted high:\nHallelujah! What a Savior!" },
+  { type:"verse", label:"Verse 5", text:"When He comes, our glorious King,\nAll His ransomed home to bring,\nThen anew this song we'll sing:\nHallelujah! What a Savior!" }
+]},
+
+h078: { number: "78", title: "I Know That My Redeemer Lives", author: "Samuel Medley, 1775", theme: "Resurrection", slides: [
+  { type:"verse", label:"Verse 1", text:"I know that my Redeemer lives!\nWhat comfort this sweet sentence gives!\nHe lives, He lives, who once was dead;\nHe lives, my ever-living Head." },
+  { type:"verse", label:"Verse 2", text:"He lives triumphant from the grave;\nHe lives eternally to save;\nHe lives all-glorious in the sky;\nHe lives exalted there on high." },
+  { type:"verse", label:"Verse 3", text:"He lives to bless me with His love;\nHe lives to plead for me above;\nHe lives my hungry soul to feed;\nHe lives to help in time of need." },
+  { type:"verse", label:"Verse 4", text:"He lives, and grants me daily breath;\nHe lives, and I shall conquer death;\nHe lives my mansion to prepare;\nHe lives to bring me safely there." },
+  { type:"verse", label:"Verse 5", text:"He lives! All glory to His name!\nHe lives, my Savior, still the same;\nWhat joy this blest assurance gives:\nI know that my Redeemer lives!" }
+]},
+
+h079: { number: "79", title: "Christ Arose", author: "Robert Lowry, 1874", theme: "Resurrection", slides: [
+  { type:"verse", label:"Verse 1", text:"Low in the grave He lay — Jesus, my Savior!\nWaiting the coming day — Jesus, my Lord!" },
+  { type:"chorus", label:"Chorus", text:"Up from the grave He arose,\nWith a mighty triumph o'er His foes;\nHe arose a Victor from the dark domain,\nAnd He lives forever with His saints to reign:\nHe arose! He arose!\nHallelujah! Christ arose!" },
+  { type:"verse", label:"Verse 2", text:"Vainly they watch His bed — Jesus, my Savior!\nVainly they seal the dead — Jesus, my Lord!" },
+  { type:"verse", label:"Verse 3", text:"Death cannot keep its prey — Jesus, my Savior!\nHe tore the bars away — Jesus, my Lord!" }
+]},
+
+h080: { number: "80", title: "Thine Is the Glory", author: "Edmond L. Budry, 1884", theme: "Resurrection", slides: [
+  { type:"verse", label:"Verse 1", text:"Thine is the glory, risen, conqu'ring Son;\nEndless is the victory Thou o'er death hast won;\nAngels in bright raiment rolled the stone away,\nKept the folded grave-clothes where Thy body lay." },
+  { type:"chorus", label:"Chorus", text:"Thine is the glory, risen, conqu'ring Son;\nEndless is the victory Thou o'er death hast won." },
+  { type:"verse", label:"Verse 2", text:"Lo, Jesus meets thee, risen from the tomb!\nLoving'ly He greets thee, scatters fear and gloom;\nLet the Church with gladness hymns of triumph sing,\nFor her Lord now liveth; death hath lost its sting." },
+  { type:"verse", label:"Verse 3", text:"No more we doubt Thee, glorious Prince of Life!\nLife is nought without Thee; aid us in our strife;\nMake us more than conq'rors, through Thy deathless love;\nBring us safe through Jordan to Thy home above." }
+]},
+
+// General / default
+general: { number: "0", title: "To God Be the Glory", author: "Fanny J. Crosby, 1875", theme: "Worship & Glory", slides: [
+  { type:"verse", label:"Verse 1", text:"To God be the glory, great things He hath done!\nSo loved He the world that He gave us His Son,\nWho yielded His life an atonement for sin,\nAnd opened the life-gate that all may go in." },
+  { type:"chorus", label:"Chorus", text:"Praise the Lord, praise the Lord,\nLet the earth hear His voice!\nPraise the Lord, praise the Lord,\nLet the people rejoice!\nO come to the Father, through Jesus the Son,\nAnd give Him the glory; great things He hath done." },
+  { type:"verse", label:"Verse 2", text:"O perfect redemption, the purchase of blood,\nTo every believer the promise of God;\nThe vilest offender who truly believes,\nThat moment from Jesus a pardon receives." },
+  { type:"verse", label:"Verse 3", text:"Great things He hath taught us, great things He hath done,\nAnd great our rejoicing through Jesus the Son;\nBut purer, and higher, and greater will be\nOur wonder, our transport, when Jesus we see." }
+]}
+
+};
+
+
+// ── KEYWORD → HYMN THEME MAP ────────────────────────
+const THEME_MAP = {
+  mercy:'mercy', compassion:'mercy', forgiveness:'mercy', forgive:'mercy', redeem:'h013',
+  grace:'grace', unmerited:'grace', favour:'grace', favor:'grace', saved:'h015',
+  faithful:'faithfulness', faithfulness:'faithfulness', covenant:'faithfulness', steadfast:'faithfulness', mercies:'faithfulness',
+  love:'love', beloved:'love', charity:'love',
+  praise:'praise', worship:'praise', hallelujah:'praise', rejoice:'praise', adore:'praise', exalt:'praise',
+  thanksgiving:'h066', grateful:'h066', blessings:'h066',
+  holy:'h003', holiness:'h003', sanctify:'h003',
+  hope:'hope', anchor:'hope', assurance:'hope',
+  trust:'trust', faith:'trust', believe:'trust', obey:'h054', obedience:'h054',
+  peace:'peace', rest:'peace', still:'peace', calm:'peace',
+  comfort:'h048', heal:'h048', healing:'h048', grief:'h048', sorrow:'h048', weary:'h048',
+  strength:'strength', strong:'strength', courage:'strength', mighty:'strength',
+  battle:'h056', warfare:'h056', soldier:'h056', armor:'h055', armour:'h055',
+  salvation:'salvation', savior:'salvation', saviour:'salvation', deliver:'salvation',
+  prayer:'prayer', pray:'prayer', intercession:'prayer', supplication:'prayer',
+  word:'word', scripture:'word', bible:'word', truth:'word',
+  morning:'morning', sunrise:'morning', dawn:'morning', new:'morning',
+  blood:'blood', cross:'h075', sacrifice:'blood', atone:'blood', washed:'blood',
+  eternal:'eternal', heaven:'eternal', everlasting:'eternal',
+  spirit:'spirit', anointing:'spirit', pentecost:'spirit', fire:'spirit',
+  surrender:'surrender', consecration:'surrender', yield:'surrender',
+  coming:'coming', rapture:'coming', trumpet:'coming', maranatha:'coming',
+  risen:'h078', resurrection:'h079', victory:'h079', alive:'h078',
+  kingdom:'h018', reign:'h018', nations:'h018',
+  creation:'h063', nature:'h063', earth:'h063',
+  gospel:'h037', preach:'h038', witness:'h038', lost:'h012'
+};
+
+// ── MATCH HYMN TO DEVOTIONAL ────────────────────────
+function matchHymn() {
+  // Gather all text from today's devotional
+  const title      = (document.getElementById('devotionalTitle')?.textContent || '').toLowerCase();
+  const verse      = (document.getElementById('votdVerse')?.textContent || '').toLowerCase();
+  const reflection = (document.getElementById('devotionalReflection')?.textContent || '').toLowerCase();
+  const prayer     = (document.getElementById('devotionalPrayer')?.textContent || '').toLowerCase();
+  const tags       = (document.getElementById('devotionalTags')?.textContent || '').toLowerCase();
+  const allText    = `${title} ${tags} ${verse} ${reflection} ${prayer}`;
+
+  // Score each theme by keyword frequency
+  const scores = {};
+  for (const [keyword, theme] of Object.entries(THEME_MAP)) {
+    const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
+    const matches = (allText.match(regex) || []).length;
+    if (matches > 0) scores[theme] = (scores[theme] || 0) + matches;
+  }
+
+  // Pick highest-scoring key
+  let bestKey = 'general';
+  let bestScore = 0;
+  for (const [key, score] of Object.entries(scores)) {
+    if (score > bestScore) {
+      if (HYMN_LIBRARY[key]) {
+        bestScore = score; bestKey = key;
+      } else {
+        // Find first hymn whose theme matches
+        const found = Object.entries(HYMN_LIBRARY).find(([k,h]) =>
+          h.theme.toLowerCase().replace(/[^a-z ]/g,'').includes(key.replace(/[_-]/g,' '))
+        );
+        if (found) { bestScore = score; bestKey = found[0]; }
+      }
+    }
+  }
+  console.log('Hymn scores:', scores, '→ key:', bestKey);
+  return HYMN_LIBRARY[bestKey] || HYMN_LIBRARY['general'];
+}
+
+// ── HYMN STATE ───────────────────────────────────────
+let hymnData     = null;
+let hymnIndex    = 0;
+let hymnExpanded = false;
+
+// ── BUILD HYMN UI ────────────────────────────────────
+function buildHymn() {
+  hymnData  = matchHymn();
+  hymnIndex = 0;
+
+  document.getElementById('hymnTitle').textContent     = hymnData.title;
+  document.getElementById('hymnAuthor').textContent    = hymnData.author;
+  document.getElementById('hymnThemePill').textContent = hymnData.theme;
+
+  buildHymnCarousel();
+  buildHymnDots();
+  buildHymnAll();
+  updateHymnControls();
+}
+
+function buildHymnCarousel() {
+  const car = document.getElementById('hymnCarousel');
+  car.innerHTML = hymnData.slides.map((s, i) => `
+    <div class="hymn-slide ${s.type === 'chorus' ? 'chorus' : ''} ${i === 0 ? 'active' : ''}" data-idx="${i}">
+      <div class="hymn-slide-label">${s.label}</div>
+      <div class="hymn-slide-text">${s.text.replace(/\n/g, '<br>')}</div>
+    </div>
+  `).join('');
+}
+
+function buildHymnDots() {
+  const row = document.getElementById('hymnDotsRow');
+  row.innerHTML = hymnData.slides.map((s, i) => `
+    <div class="hymn-dot ${s.type === 'chorus' ? 'chorus-dot' : ''} ${i === 0 ? 'active' : ''}"
+         onclick="hymnGoto(${i})" title="${s.label}"></div>
+  `).join('');
+}
+
+function buildHymnAll() {
+  const all = document.getElementById('hymnAll');
+  all.innerHTML = hymnData.slides.map(s => `
+    <div class="hymn-all-slide ${s.type === 'chorus' ? 'chorus-block' : ''}">
+      <div class="hymn-slide-label">${s.label}</div>
+      <div class="hymn-slide-text">${s.text.replace(/\n/g, '<br>')}</div>
+    </div>
+  `).join('');
+}
+
+function hymnGoto(idx) {
+  const slides = document.querySelectorAll('.hymn-slide');
+  const dots   = document.querySelectorAll('.hymn-dot');
+  slides.forEach(s => s.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  if (slides[idx]) slides[idx].classList.add('active');
+  if (dots[idx])   dots[idx].classList.add('active');
+  hymnIndex = idx;
+  updateHymnControls();
+}
+
+function hymnPrev() { if (hymnIndex > 0) hymnGoto(hymnIndex - 1); }
+function hymnNext() { if (hymnData && hymnIndex < hymnData.slides.length - 1) hymnGoto(hymnIndex + 1); }
+
+function updateHymnControls() {
+  const prev = document.getElementById('hymnPrevBtn');
+  const next = document.getElementById('hymnNextBtn');
+  if (prev) prev.disabled = hymnIndex === 0;
+  if (next) next.disabled = !hymnData || hymnIndex === hymnData.slides.length - 1;
+}
+
+function hymnToggleAll() {
+  hymnExpanded = !hymnExpanded;
+  const allEl  = document.getElementById('hymnAll');
+  const carEl  = document.getElementById('hymnCarousel');
+  const dotsEl = document.getElementById('hymnDotsRow');
+  const btn    = document.getElementById('hymnExpandBtn');
+  const prevBtn = document.getElementById('hymnPrevBtn');
+  const nextBtn = document.getElementById('hymnNextBtn');
+
+  if (hymnExpanded) {
+    allEl.style.display  = 'block';
+    carEl.style.display  = 'none';
+    dotsEl.style.display = 'none';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    btn.classList.add('open');
+    btn.querySelector('svg').style.transform = 'rotate(180deg)';
+  } else {
+    allEl.style.display  = 'none';
+    carEl.style.display  = 'block';
+    dotsEl.style.display = 'flex';
+    prevBtn.style.display = '';
+    nextBtn.style.display = '';
+    btn.classList.remove('open');
+    btn.querySelector('svg').style.transform = '';
+  }
+}
+
+function hymnShare() {
+  if (!hymnData) return;
+  const current = hymnData.slides[hymnIndex];
+  const text = `♪ ${hymnData.title}\n${current.label}:\n\n${current.text}\n\n— ${hymnData.author}\n\n📖 Excellent Day Devotional`;
+  openShareWithText(text);
+}
+
 </script>
 
 <!-- ═══ PWA SERVICE WORKER + INSTALL PROMPT ═══ -->
@@ -2629,8 +3791,10 @@ const _origNav = nav;
 function nav(p) {
   document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
-  document.getElementById('page-' + p).classList.add('active');
-  document.getElementById('nb-' + p).classList.add('active');
+  const page = document.getElementById('page-' + p);
+  if (page) page.classList.add('active');
+  const nb = document.getElementById('nb-' + p);
+  if (nb) nb.classList.add('active');
   document.querySelector('.main').scrollTop = 0;
   // Sync side menu active state
   document.querySelectorAll('.sm-item[id^="sm-"]').forEach(el => el.classList.remove('active'));
@@ -2644,6 +3808,163 @@ document.addEventListener('DOMContentLoaded', () => {
     scheduleDevotionalNotification();
   }
 });
+
+
+// ══════════════════════════════════════════════════════
+//  CAC HYMNS LIBRARY PAGE
+// ══════════════════════════════════════════════════════
+let hymnFilterActive = 'All';
+let hrIndex = 0;
+let hrData  = null;
+let hrExpandedAll = false;
+
+function buildHymnsPage() {
+  // Build theme filter pills
+  const themes = ['All', ...new Set(
+    Object.values(HYMN_LIBRARY)
+      .filter(h => h.number !== '0')
+      .map(h => h.theme)
+  ).values()].sort((a,b) => a === 'All' ? -1 : a.localeCompare(b));
+
+  document.getElementById('hymnFilters').innerHTML = themes.map(t =>
+    `<button class="hf-pill ${t === 'All' ? 'active' : ''}" onclick="setHymnFilter('${t.replace(/'/g,"\'")}',this)">${t}</button>`
+  ).join('');
+
+  renderHymnsGrid('');
+}
+
+function setHymnFilter(theme, btn) {
+  hymnFilterActive = theme;
+  document.querySelectorAll('.hf-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderHymnsGrid(document.getElementById('hymnSearchInput')?.value || '');
+}
+
+function filterHymns(val) { renderHymnsGrid(val); }
+
+function renderHymnsGrid(query) {
+  const q = query.toLowerCase().trim();
+  const entries = Object.entries(HYMN_LIBRARY).filter(([k]) => k !== 'general');
+
+  // Sort by hymn number
+  entries.sort(([,a],[,b]) => {
+    const na = parseInt(a.number) || 999;
+    const nb = parseInt(b.number) || 999;
+    return na - nb;
+  });
+
+  const filtered = entries.filter(([key, h]) => {
+    const matchTheme = hymnFilterActive === 'All' || h.theme === hymnFilterActive;
+    const matchSearch = !q ||
+      h.title.toLowerCase().includes(q) ||
+      h.author.toLowerCase().includes(q) ||
+      h.theme.toLowerCase().includes(q) ||
+      h.number === q.replace('#','') ||
+      h.slides.some(s => s.text.toLowerCase().includes(q));
+    return matchTheme && matchSearch;
+  });
+
+  const grid = document.getElementById('hymnsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="hymns-empty">No hymns found. Try a different search.</div>';
+    return;
+  }
+
+  grid.innerHTML = `<div class="hymns-count">Showing <span>${filtered.length}</span> of <span>${entries.length}</span> hymns</div>` +
+    filtered.map(([key, h]) => `
+    <div class="hlib-card" onclick="openHymnReader('${key}')">
+      <div class="hlib-num">${h.number && h.number !== '0' ? '#' + h.number : '♪'}</div>
+      <div class="hlib-info">
+        <div class="hlib-title">${h.title}</div>
+        <div class="hlib-author">${h.author}</div>
+      </div>
+      <div class="hlib-theme">${h.theme}</div>
+    </div>`).join('');
+}
+
+function openHymnReader(key) {
+  hrData  = HYMN_LIBRARY[key];
+  hrIndex = 0;
+  hrExpandedAll = false;
+  if (!hrData) return;
+
+  document.getElementById('hrBadge').textContent  = (hrData.number && hrData.number !== '0' ? 'Hymn #' + hrData.number + ' · ' : '') + hrData.theme;
+  document.getElementById('hrTitle').textContent  = hrData.title;
+  document.getElementById('hrAuthor').textContent = hrData.author;
+
+  document.getElementById('hrSlides').innerHTML = hrData.slides.map((s, i) =>
+    `<div class="hymn-slide ${s.type === 'chorus' ? 'chorus' : ''} ${i === 0 ? 'active' : ''}" data-idx="${i}">
+      <div class="hymn-slide-label">${s.label}</div>
+      <div class="hymn-slide-text">${s.text.replace(/\n/g,'<br>')}</div>
+    </div>`
+  ).join('');
+
+  document.getElementById('hrDots').innerHTML = hrData.slides.map((s, i) =>
+    `<div class="hymn-dot ${s.type==='chorus'?'chorus-dot':''} ${i===0?'active':''}" onclick="hrGoto(${i})" title="${s.label}"></div>`
+  ).join('');
+
+  document.getElementById('hrAllVerses').innerHTML = hrData.slides.map(s =>
+    `<div class="hymn-all-slide ${s.type==='chorus'?'chorus-block':''}">
+      <div class="hymn-slide-label">${s.label}</div>
+      <div class="hymn-slide-text">${s.text.replace(/\n/g,'<br>')}</div>
+    </div>`
+  ).join('');
+
+  // Reset state
+  document.getElementById('hrAllVerses').style.display = 'none';
+  document.getElementById('hrSlides').style.display    = 'block';
+  document.getElementById('hrDots').style.display      = 'flex';
+  document.getElementById('hrPrevBtn').style.display   = '';
+  document.getElementById('hrNextBtn').style.display   = '';
+  document.getElementById('hrExpandBtn').classList.remove('open');
+  updateHrControls();
+
+  document.getElementById('hymnsGrid').style.display            = 'none';
+  document.getElementById('hymnFilters').style.display          = 'none';
+  document.querySelector('.hymns-search-wrap').style.display    = 'none';
+  document.getElementById('hymnReader').style.display           = 'block';
+  document.querySelector('.main').scrollTop = 0;
+}
+
+function closeHymnReader() {
+  document.getElementById('hymnReader').style.display           = 'none';
+  document.getElementById('hymnsGrid').style.display            = '';
+  document.getElementById('hymnFilters').style.display          = '';
+  document.querySelector('.hymns-search-wrap').style.display    = '';
+}
+
+function hrGoto(idx) {
+  document.querySelectorAll('#hrSlides .hymn-slide').forEach((s,i) => s.classList.toggle('active', i===idx));
+  document.querySelectorAll('#hrDots .hymn-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+  hrIndex = idx;
+  updateHrControls();
+}
+function hrPrev() { if (hrIndex > 0) hrGoto(hrIndex - 1); }
+function hrNext() { if (hrData && hrIndex < hrData.slides.length - 1) hrGoto(hrIndex + 1); }
+
+function updateHrControls() {
+  const p = document.getElementById('hrPrevBtn');
+  const n = document.getElementById('hrNextBtn');
+  if (p) p.disabled = hrIndex === 0;
+  if (n) n.disabled = !hrData || hrIndex === hrData.slides.length - 1;
+}
+
+function hrToggleAll() {
+  hrExpandedAll = !hrExpandedAll;
+  document.getElementById('hrAllVerses').style.display  = hrExpandedAll ? 'block' : 'none';
+  document.getElementById('hrSlides').style.display     = hrExpandedAll ? 'none'  : 'block';
+  document.getElementById('hrDots').style.display       = hrExpandedAll ? 'none'  : 'flex';
+  document.getElementById('hrPrevBtn').style.display    = hrExpandedAll ? 'none'  : '';
+  document.getElementById('hrNextBtn').style.display    = hrExpandedAll ? 'none'  : '';
+  document.getElementById('hrExpandBtn').classList.toggle('open', hrExpandedAll);
+}
+
+function hrShare() {
+  if (!hrData) return;
+  const cur  = hrData.slides[hrIndex];
+  const text = `♪ ${hrData.title}\n${cur.label}:\n\n${cur.text}\n\n— ${hrData.author}\n\n📖 Excellent Day Devotional`;
+  openShareWithText(text);
+}
 
 </script>
 </body>
