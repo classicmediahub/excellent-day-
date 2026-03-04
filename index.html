@@ -452,7 +452,7 @@ body {
   color: #C8A84A; text-transform: uppercase;
   display: flex; align-items: center; gap: 8px;
 }
-.votd-ref::before { content: ''; width: 18px; height: 1px; background: rgba(200,168,74,0.5); }
+.votd-ref::before { content: ''; width: 18px; height: 1px; background: rgba(200,168,74,0.5); flex-shrink: 0; }
 
 /* ══════════════════════════════════════
    TAGS
@@ -871,6 +871,201 @@ body {
   font-family: 'Cinzel', serif; font-size: 0.6rem; color: var(--text-3);
   letter-spacing: 0.08em; text-transform: uppercase;
 }
+
+/* ══════════════════════════════════════
+   SEARCH PAGE
+══════════════════════════════════════ */
+.search-box {
+  margin-bottom: 16px;
+}
+.search-input-wrap {
+  position: relative; display: flex; align-items: center;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 0 14px; margin-bottom: 10px;
+  transition: border-color 0.2s, background var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.search-input-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+.search-ico {
+  width: 18px; height: 18px; color: var(--text-3); flex-shrink: 0;
+  margin-right: 10px; transition: color var(--transition);
+}
+.search-input-wrap:focus-within .search-ico { color: var(--accent); }
+.search-inp {
+  flex: 1; border: none; background: transparent; outline: none;
+  font-family: 'Source Serif 4', serif; font-size: 1rem;
+  color: var(--text-1); padding: 14px 0;
+  transition: color var(--transition);
+}
+.search-inp::placeholder { color: var(--text-4); }
+.search-clear {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-3); font-size: 0.85rem; padding: 4px 6px;
+  border-radius: 50%; transition: all 0.15s;
+}
+.search-clear:hover { background: var(--bg-3); color: var(--text-1); }
+.search-filters {
+  display: flex; gap: 7px; flex-wrap: wrap;
+}
+.sf {
+  padding: 6px 14px; border-radius: 20px; cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-3);
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.08em;
+  transition: all 0.18s, background var(--transition);
+}
+.sf.active { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+.search-empty {
+  text-align: center; padding: 48px 20px;
+}
+.se-icon { font-size: 1.8rem; color: var(--gold); margin-bottom: 12px; opacity: 0.5; }
+.se-title {
+  font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+  color: var(--text-2); margin-bottom: 8px; letter-spacing: 0.04em;
+}
+.se-sub {
+  font-family: 'Source Serif 4', serif; font-style: italic;
+  font-size: 0.9rem; color: var(--text-3); line-height: 1.7;
+}
+.search-count {
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.1em;
+  color: var(--text-3); text-transform: uppercase; margin-bottom: 12px;
+  padding: 0 2px; transition: color var(--transition);
+}
+.search-count span { color: var(--gold); }
+.sr-item {
+  background: var(--surface); border: 1px solid var(--border-soft);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+  cursor: pointer; transition: all 0.18s, background var(--transition);
+  position: relative; overflow: hidden;
+}
+.sr-item:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.sr-ref {
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sr-text {
+  font-family: 'Source Serif 4', serif; font-size: 0.95rem; line-height: 1.68;
+  color: var(--text-2); transition: color var(--transition);
+}
+.sr-text mark {
+  background: var(--gold-bg); color: var(--gold);
+  border-radius: 3px; padding: 0 2px; font-style: normal;
+}
+.sr-actions {
+  display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+}
+.sr-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-3); cursor: pointer;
+  font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.07em;
+  transition: all 0.18s, border-color var(--transition);
+}
+.sr-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.sr-btn.share-wa:hover { border-color: #25D366; color: #25D366; background: rgba(37,211,102,0.08); }
+.sr-btn svg { width: 13px; height: 13px; }
+
+/* ══════════════════════════════════════
+   SHARE MODAL
+══════════════════════════════════════ */
+.share-overlay {
+  position: fixed; inset: 0; z-index: 9500;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none; transition: opacity 0.28s;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.share-overlay.show { opacity: 1; pointer-events: all; }
+.share-sheet {
+  background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 24px 20px 36px; width: 100%; max-width: 500px;
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  border-top: 1px solid var(--border);
+}
+.share-overlay.show .share-sheet { transform: translateY(0); }
+.share-handle {
+  width: 36px; height: 4px; border-radius: 2px;
+  background: var(--border); margin: 0 auto 18px;
+}
+.share-title {
+  font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em;
+  color: var(--text-3); text-transform: uppercase; margin-bottom: 12px;
+  text-align: center;
+}
+.share-verse-preview {
+  background: var(--surface-2); border: 1px solid var(--border-soft);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 0.92rem; line-height: 1.7; color: var(--text-2);
+}
+.share-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.so {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  padding: 14px 8px; border-radius: 14px; cursor: pointer;
+  border: 1px solid var(--border-soft); background: var(--surface);
+  transition: all 0.18s, background var(--transition);
+}
+.so:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.so-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.so-label {
+  font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.07em;
+  color: var(--text-3); text-transform: uppercase;
+}
+.so.wa .so-icon { background: rgba(37,211,102,0.15); }
+.so.fb .so-icon { background: rgba(24,119,242,0.12); }
+.so.tw .so-icon { background: rgba(0,0,0,0.08); }
+.so.cp .so-icon { background: var(--gold-bg); }
+
+/* ══════════════════════════════════════
+   NOTIFICATION BUTTON (top bar)
+══════════════════════════════════════ */
+.notif-btn {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.18s, background var(--transition);
+  position: relative;
+}
+.notif-btn:hover { border-color: var(--accent); background: var(--accent-bg); }
+.notif-btn svg { width: 17px; height: 17px; color: var(--text-3); transition: color 0.18s; }
+.notif-btn:hover svg { color: var(--accent); }
+.notif-btn.on svg { color: var(--gold); }
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); display: none;
+  box-shadow: 0 0 6px var(--gold);
+}
+.notif-btn.on .notif-dot { display: block; }
+
+/* ══════════════════════════════════════
+   UI IMPROVEMENTS
+══════════════════════════════════════ */
+/* Larger streak dots */
+.sd { height: 52px; border-radius: 12px; }
+/* Smoother verse highlight */
+.vi.hl { border-left: 3px solid var(--accent); padding-left: 7px; border-radius: 0 9px 9px 0; }
+/* Better card hover */
+.card { transition: background var(--transition), border-color var(--transition), box-shadow 0.2s, transform 0.2s; }
+/* Share button on VOTD */
+.votd-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.votd-share-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 20px; cursor: pointer;
+  border: 1px solid rgba(200,168,74,0.35); background: rgba(200,168,74,0.1);
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.1em;
+  color: #C8A84A; text-transform: uppercase; transition: all 0.2s;
+}
+.votd-share-btn:hover { background: rgba(200,168,74,0.2); transform: translateY(-1px); }
+.votd-share-btn svg { width: 13px; height: 13px; }
 </style>
 </head>
 <body>
@@ -909,6 +1104,10 @@ body {
         <div class="tb-date" id="topDate"></div>
         <div class="tb-time" id="topTime"></div>
       </div>
+      <button class="notif-btn" id="notifBtn" onclick="toggleNotifications()" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div class="notif-dot"></div>
+      </button>
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
         <div class="toggle-thumb" id="toggleThumb"></div>
       </button>
@@ -934,7 +1133,13 @@ body {
       <div class="votd" id="votdCard">
         <div class="votd-badge"><div class="vb-dot"></div>Verse of the Day</div>
         <p class="votd-verse" id="votdVerse">"It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness."</p>
-        <div class="votd-ref" id="votdRef">Lamentations 3:22–23 · KJV</div>
+        <div class="votd-footer">
+          <div class="votd-ref" id="votdRef">Lamentations 3:22–23 · KJV</div>
+          <button class="votd-share-btn" onclick="shareVerse()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share
+          </button>
+        </div>
       </div>
 
       <div class="tags" id="devotionalTags">
@@ -1066,6 +1271,34 @@ body {
       </div>
     </div>
 
+    <!-- SEARCH -->
+    <div class="page" id="page-search">
+      <div class="ph" style="margin-bottom:14px">
+        <div class="ph-label">Find His Word</div>
+        <h2 class="ph-title" style="font-size:1.32rem">Search the Bible</h2>
+        <div class="ph-divider"><div class="ph-div-line"></div><span>✦</span><div class="ph-div-line r"></div></div>
+      </div>
+      <div class="search-box">
+        <div class="search-input-wrap">
+          <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" class="search-inp" placeholder="Search words or phrases e.g. faith, love…" oninput="liveSearch(this.value)" />
+          <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none">✕</button>
+        </div>
+        <div class="search-filters">
+          <button class="sf active" onclick="setFilter('all',this)">All Books</button>
+          <button class="sf" onclick="setFilter('ot',this)">Old Testament</button>
+          <button class="sf" onclick="setFilter('nt',this)">New Testament</button>
+        </div>
+      </div>
+      <div id="searchResults">
+        <div class="search-empty">
+          <div class="se-icon">✦</div>
+          <div class="se-title">Search His Word</div>
+          <div class="se-sub">Type a word or phrase to find<br>matching verses across the Bible</div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Bottom Nav -->
@@ -1078,6 +1311,10 @@ body {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
       Bible
     </button>
+    <button class="nb" id="nb-search" onclick="nav('search')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
     <button class="nb" id="nb-journal" onclick="nav('journal')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       Journal
@@ -1087,6 +1324,33 @@ body {
       Plan
     </button>
   </nav>
+  <!-- Share Modal -->
+  <div class="share-overlay" id="shareOverlay" onclick="closeShare(event)">
+    <div class="share-sheet">
+      <div class="share-handle"></div>
+      <div class="share-title">Share This Verse</div>
+      <div class="share-verse-preview" id="sharePreview"></div>
+      <div class="share-options">
+        <div class="so wa" onclick="shareToWhatsApp()">
+          <div class="so-icon">💬</div>
+          <div class="so-label">WhatsApp</div>
+        </div>
+        <div class="so fb" onclick="shareToFacebook()">
+          <div class="so-icon">📘</div>
+          <div class="so-label">Facebook</div>
+        </div>
+        <div class="so tw" onclick="shareToTwitter()">
+          <div class="so-icon">🐦</div>
+          <div class="so-label">X / Twitter</div>
+        </div>
+        <div class="so cp" onclick="copyVerse()">
+          <div class="so-icon">📋</div>
+          <div class="so-label">Copy Text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PWA Install Banner (Android) -->
   <div class="install-banner" id="installBanner">
     <div class="install-icon"></div>
@@ -1491,6 +1755,8 @@ function nav(p) {
   document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
   document.getElementById('page-' + p).classList.add('active');
   document.getElementById('nb-' + p).classList.add('active');
+  // Reset scroll position when switching pages
+  document.querySelector('.main').scrollTop = 0;
 }
 
 // ── BIBLE ───────────────────────────────
@@ -1728,6 +1994,269 @@ if (isIos && !isInStandaloneMode && !iosDismissed) {
     if (iosBanner) iosBanner.classList.add('show');
   }, 3500);
 }
+
+// ══════════════════════════════════════════════════════
+//  BIBLE SEARCH
+// ══════════════════════════════════════════════════════
+let searchFilter = 'all';
+let searchTimer = null;
+
+function setFilter(f, btn) {
+  searchFilter = f;
+  document.querySelectorAll('.sf').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const q = document.getElementById('searchInput').value.trim();
+  if (q.length >= 2) doSearch(q);
+}
+
+function liveSearch(val) {
+  const clear = document.getElementById('searchClear');
+  if (clear) clear.style.display = val ? 'block' : 'none';
+  clearTimeout(searchTimer);
+  if (val.length < 2) {
+    document.getElementById('searchResults').innerHTML = `
+      <div class="search-empty">
+        <div class="se-icon">✦</div>
+        <div class="se-title">Search His Word</div>
+        <div class="se-sub">Type at least 2 characters to search</div>
+      </div>`;
+    return;
+  }
+  // Show loading
+  document.getElementById('searchResults').innerHTML = '<div class="ld"><span></span><span></span><span></span></div>';
+  searchTimer = setTimeout(() => doSearch(val), 350);
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('searchResults').innerHTML = `
+    <div class="search-empty">
+      <div class="se-icon">✦</div>
+      <div class="se-title">Search His Word</div>
+      <div class="se-sub">Type a word or phrase to find<br>matching verses across the Bible</div>
+    </div>`;
+}
+
+function doSearch(query) {
+  const q = query.toLowerCase().trim();
+  const books = searchFilter === 'nt' ? NT : searchFilter === 'ot' ? OT : [...OT, ...NT];
+  const results = [];
+
+  // Search KJV verses we have cached
+  for (const [key, verses] of Object.entries(KJV)) {
+    const [bookName] = key.split(' ');
+    // Check if this book is in the filtered set
+    const inFilter = books.some(b => key.startsWith(b.n));
+    if (!inFilter) continue;
+    verses.forEach((v, i) => {
+      if (v.toLowerCase().includes(q)) {
+        // Extract book name by removing the last token (chapter number)
+        const parts = key.split(' ');
+        const bookName = parts.slice(0, -1).join(' ');
+        const chNum = parseInt(parts[parts.length - 1]);
+        results.push({ ref: `${key}:${i+1}`, book: bookName, ch: chNum, verse: i+1, text: v });
+      }
+    });
+  }
+
+  const container = document.getElementById('searchResults');
+  if (!results.length) {
+    container.innerHTML = `
+      <div class="search-empty">
+        <div class="se-icon">✦</div>
+        <div class="se-title">No results found</div>
+        <div class="se-sub">Try a different word or phrase.<br>More verses load when you browse the Bible.</div>
+      </div>`;
+    return;
+  }
+
+  const highlight = (text, q) => text.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+
+  container.innerHTML = `<div class="search-count">Found <span>${results.length}</span> verse${results.length !== 1 ? 's' : ''}</div>` +
+    results.map(r => `
+      <div class="sr-item">
+        <div class="sr-ref">
+          <span>${r.ref}</span>
+          <span style="color:var(--text-4);font-size:0.52rem">KJV</span>
+        </div>
+        <div class="sr-text">${highlight(r.text, q)}</div>
+        <div class="sr-actions">
+          <button class="sr-btn" onclick="openVerseFromSearch('${r.book}',${r.ch},${r.verse})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            Read Chapter
+          </button>
+          <button class="sr-btn share-wa" onclick='openShareWithText("${r.text.replace(/'/g,"&#39;")} — ${r.ref}")'>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share
+          </button>
+        </div>
+      </div>`).join('');
+}
+
+function openVerseFromSearch(bookName, ch, verse) {
+  const book = [...OT,...NT].find(b => b.n === bookName);
+  if (!book) return;
+  curBook = {name: book.n, chapters: book.c};
+  curCh = ch;
+  nav('bible');
+  showBV('bv-verses');
+  document.getElementById('vTitle').textContent = `${bookName} ${ch}`;
+  document.getElementById('vSub').textContent = `King James Version · Chapter ${ch} of ${book.c}`;
+  document.getElementById('prevBtn').disabled = ch <= 1;
+  document.getElementById('nextBtn').disabled = ch >= book.c;
+  renderVerses();
+}
+
+// ══════════════════════════════════════════════════════
+//  SHARE FUNCTIONALITY
+// ══════════════════════════════════════════════════════
+let shareText = '';
+
+function shareVerse() {
+  const verse = document.getElementById('votdVerse')?.textContent || '';
+  const ref   = document.getElementById('votdRef')?.textContent || '';
+  openShareWithText(`${verse} — ${ref}`);
+}
+
+function openShareWithText(text) {
+  shareText = text;
+  const preview = document.getElementById('sharePreview');
+  if (preview) preview.textContent = text.length > 180 ? text.substring(0, 180) + '…' : text;
+  document.getElementById('shareOverlay').classList.add('show');
+}
+
+function closeShare(e) {
+  if (e.target === document.getElementById('shareOverlay')) {
+    document.getElementById('shareOverlay').classList.remove('show');
+  }
+}
+
+function shareToWhatsApp() {
+  const msg = encodeURIComponent('✦ ' + shareText + '\n\n📖 Excellent Day Devotional');
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+  document.getElementById('shareOverlay').classList.remove('show');
+}
+
+function shareToFacebook() {
+  const url = encodeURIComponent(window.location.href);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${encodeURIComponent(shareText)}`, '_blank');
+  document.getElementById('shareOverlay').classList.remove('show');
+}
+
+function shareToTwitter() {
+  const msg = encodeURIComponent('✦ ' + shareText + ' #Bible #Faith #ExcellentDay');
+  window.open(`https://twitter.com/intent/tweet?text=${msg}`, '_blank');
+  document.getElementById('shareOverlay').classList.remove('show');
+}
+
+function copyVerse() {
+  navigator.clipboard.writeText(shareText).then(() => {
+    toast('Verse copied to clipboard ✦');
+    document.getElementById('shareOverlay').classList.remove('show');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = shareText;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Verse copied ✦');
+    document.getElementById('shareOverlay').classList.remove('show');
+  });
+}
+
+// Native share API (if available)
+function nativeShare() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Excellent Day Devotional',
+      text: shareText,
+      url: window.location.href
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  PUSH NOTIFICATIONS
+// ══════════════════════════════════════════════════════
+let notifEnabled = localStorage.getItem('edd_notif') === 'true';
+
+function updateNotifBtn() {
+  const btn = document.getElementById('notifBtn');
+  if (!btn) return;
+  btn.classList.toggle('on', notifEnabled);
+}
+
+async function toggleNotifications() {
+  if (!('Notification' in window)) {
+    toast('Notifications not supported on this device');
+    return;
+  }
+
+  if (notifEnabled) {
+    // Turn off
+    notifEnabled = false;
+    localStorage.setItem('edd_notif', 'false');
+    updateNotifBtn();
+    toast('Daily notifications turned off');
+    return;
+  }
+
+  // Request permission
+  const permission = await Notification.requestPermission();
+
+  if (permission === 'granted') {
+    notifEnabled = true;
+    localStorage.setItem('edd_notif', 'true');
+    updateNotifBtn();
+    scheduleDevotionalNotification();
+    toast('✦ Daily devotional notifications enabled!');
+    // Show a welcome notification immediately
+    new Notification('Excellent Day Devotional', {
+      body: 'You will receive your daily devotional at 7:00 AM 🙏',
+      icon: 'icons/icon-192.png',
+      badge: 'icons/icon-72.png'
+    });
+  } else if (permission === 'denied') {
+    toast('Please enable notifications in your browser settings');
+  }
+}
+
+function scheduleDevotionalNotification() {
+  if (!notifEnabled || Notification.permission !== 'granted') return;
+
+  // Calculate ms until 7:00 AM tomorrow
+  const now = new Date();
+  const next7am = new Date();
+  next7am.setHours(7, 0, 0, 0);
+  if (now >= next7am) next7am.setDate(next7am.getDate() + 1);
+  const msUntil7am = next7am - now;
+
+  setTimeout(() => {
+    if (Notification.permission === 'granted' && notifEnabled) {
+      new Notification('Good Morning — Excellent Day Devotional', {
+        body: 'Your daily devotional is ready. His mercies are new every morning 🙏',
+        icon: 'icons/icon-192.png',
+        badge: 'icons/icon-72.png',
+        tag: 'daily-devotional',
+        renotify: true
+      });
+      // Schedule the next one
+      scheduleDevotionalNotification();
+    }
+  }, msUntil7am);
+}
+
+// Re-schedule on DOMContentLoaded (avoids duplicate 'load' listener)
+document.addEventListener('DOMContentLoaded', () => {
+  updateNotifBtn();
+  if (notifEnabled && Notification.permission === 'granted') {
+    scheduleDevotionalNotification();
+  }
+});
+
 </script>
 </body>
 </html>
