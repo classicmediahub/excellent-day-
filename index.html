@@ -1735,11 +1735,13 @@ button.brand:active { transform: scale(0.97); }
 
       <!-- Book View -->
       <div class="bv show" id="bv-books">
-        <select class="bsel" id="transSelect">
+        <select class="bsel" id="transSelect" onchange="onTransChange(this.value)">
           <option value="KJV">KJV — King James Version</option>
           <option value="NIV">NIV — New International Version</option>
           <option value="ESV">ESV — English Standard Version</option>
           <option value="NLT">NLT — New Living Translation</option>
+          <option value="ASV">ASV — American Standard Version</option>
+          <option value="WEB">WEB — World English Bible</option>
         </select>
         <div class="ttabs">
           <button class="ttab active" onclick="filterBooks('all',this)">All Books</button>
@@ -1841,7 +1843,7 @@ button.brand:active { transform: scale(0.97); }
         <div class="search-empty">
           <div class="se-icon">✦</div>
           <div class="se-title">Search His Word</div>
-          <div class="se-sub">Type a word or phrase to find<br>matching verses across the Bible</div>
+          <div class="se-sub">Type a word or phrase to search<br>through your browsed chapters</div>
         </div>
       </div>
     </div>
@@ -2061,15 +2063,30 @@ button.brand:active { transform: scale(0.97); }
         </div>
         <div class="sm-toggle-pill" id="themeMenuPill"></div>
       </li>
-      <li class="sm-item" onclick="toggleNotifications()">
+      <li class="sm-item" onclick="toggleNotifications()" id="smNotifItem">
         <div class="sm-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
         </div>
         <div class="sm-item-text">
           <div class="sm-item-name">Daily Notifications</div>
-          <div class="sm-item-sub">7:00 AM devotional reminder</div>
+          <div class="sm-item-sub" id="smNotifSub">5:30 AM devotional reminder</div>
         </div>
         <div class="sm-notif-dot" id="smNotifDot"></div>
+      </li>
+      <!-- Time picker row — visible only when notifications are ON -->
+      <li class="sm-item sm-time-row" id="smTimeRow" style="display:none;padding:10px 18px 14px 56px">
+        <div class="sm-item-text" style="flex:1">
+          <div class="sm-item-name" style="font-size:0.72rem;margin-bottom:6px">Notification Time</div>
+          <input type="time" id="notifTimePicker" value="05:30"
+            onclick="event.stopPropagation()"
+            onchange="setNotifTime(this.value)"
+            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;
+                   padding:7px 12px;color:var(--text-1);font-family:'Source Serif 4',serif;
+                   font-size:0.95rem;outline:none;width:100%;transition:border-color 0.2s">
+          <div style="font-size:0.7rem;color:var(--text-4);font-style:italic;margin-top:5px">
+            Tap to choose your preferred time
+          </div>
+        </div>
       </li>
     </ul>
 
@@ -2304,22 +2321,67 @@ const NT=[
   {n:"Jude",c:1},{n:"Revelation",c:22}
 ];
 
-const KJV={
-  "John 3":["There was a man of the Pharisees, named Nicodemus, a ruler of the Jews:","The same came to Jesus by night, and said unto him, Rabbi, we know that thou art a teacher come from God: for no man can do these miracles that thou doest, except God be with him.","Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God.","Nicodemus saith unto him, How can a man be born when he is old? can he enter the second time into his mother's womb, and be born?","Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God.","That which is born of the flesh is flesh; and that which is born of the Spirit is spirit.","Marvel not that I said unto thee, Ye must be born again.","The wind bloweth where it listeth, and thou hearest the sound thereof, but canst not tell whence it cometh, and whither it goeth: so is every one that is born of the Spirit.","Nicodemus answered and said unto him, How can these things be?","Jesus answered and said unto him, Art thou a master of Israel, and knowest not these things?","Verily, verily, I say unto thee, We speak that we do know, and testify that we have seen; and ye receive not our witness.","If I have told you earthly things, and ye believe not, how shall ye believe, if I tell you of heavenly things?","And no man hath ascended up to heaven, but he that came down from heaven, even the Son of man which is in heaven.","And as Moses lifted up the serpent in the wilderness, even so must the Son of man be lifted up:","That whosoever believeth in him should not perish, but have eternal life.","For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.","For God sent not his Son into the world to condemn the world; but that the world through him might be saved.","He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.","And this is the condemnation, that light is come into the world, and men loved darkness rather than light, because their deeds were evil.","For every one that doeth evil hateth the light, neither cometh to the light, lest his deeds should be reproved.","But he that doeth truth cometh to the light, that his deeds may be made manifest, that they are wrought in God."],
-  "Psalms 23":["The LORD is my shepherd; I shall not want.","He maketh me to lie down in green pastures: he leadeth me beside the still waters.","He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.","Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.","Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.","Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever."],
-  "Psalms 91":["He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.","I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust.","Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence.","He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler.","Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day;","Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday.","A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee.","Only with thine eyes shalt thou behold and see the reward of the wicked.","Because thou hast made the LORD, which is my refuge, even the most High, thy habitation;","There shall no evil befall thee, neither shall any plague come nigh thy dwelling.","For he shall give his angels charge over thee, to keep thee in all thy ways.","They shall bear thee up in their hands, lest thou dash thy foot against a stone.","Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet.","Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name.","He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him.","With long life will I satisfy him, and shew him my salvation."],
-  "Proverbs 3":["My son, forget not my law; but let thine heart keep my commandments:","For length of days, and long life, and peace, shall they add to thee.","Let not mercy and truth forsake thee: bind them about thy neck; write them upon the table of thine heart:","So shalt thou find favour and good understanding in the sight of God and man.","Trust in the LORD with all thine heart; and lean not unto thine own understanding.","In all thy ways acknowledge him, and he shall direct thy paths.","Be not wise in thine own eyes: fear the LORD, and depart from evil.","It shall be health to thy navel, and marrow to thy bones.","Honour the LORD with thy substance, and with the firstfruits of all thine increase:","So shall thy barns be filled with plenty, and thy presses shall burst out with new wine.","My son, despise not the chastening of the LORD; neither be weary of his correction:","For whom the LORD loveth he correcteth; even as a father the son in whom he delighteth.","Happy is the man that findeth wisdom, and the man that getteth understanding.","For the merchandise of it is better than the merchandise of silver, and the gain thereof than fine gold.","She is more precious than rubies: and all the things thou canst desire are not to be compared unto her."],
-  "Romans 8":["There is therefore now no condemnation to them which are in Christ Jesus, who walk not after the flesh, but after the Spirit.","For the law of the Spirit of life in Christ Jesus hath made me free from the law of sin and death.","For what the law could not do, in that it was weak through the flesh, God sending his own Son in the likeness of sinful flesh, and for sin, condemned sin in the flesh:","That the righteousness of the law might be fulfilled in us, who walk not after the flesh, but after the Spirit.","For they that are after the flesh do mind the things of the flesh; but they that are after the Spirit the things of the Spirit.","For to be carnally minded is death; but to be spiritually minded is life and peace.","Because the carnal mind is enmity against God: for it is not subject to the law of God, neither indeed can be.","So then they that are in the flesh cannot please God.","But ye are not in the flesh, but in the Spirit, if so be that the Spirit of God dwell in you. Now if any man have not the Spirit of Christ, he is none of his.","And if Christ be in you, the body is dead because of sin; but the Spirit is life because of righteousness.","But if the Spirit of him that raised up Jesus from the dead dwell in you, he that raised up Christ from the dead shall also quicken your mortal bodies by his Spirit that dwelleth in you.","Therefore, brethren, we are debtors, not to the flesh, to live after the flesh.","For if ye live after the flesh, ye shall die: but if ye through the Spirit do mortify the deeds of the body, ye shall live.","For as many as are led by the Spirit of God, they are the sons of God.","For ye have not received the spirit of bondage again to fear; but ye have received the Spirit of adoption, whereby we cry, Abba, Father.","The Spirit itself beareth witness with our spirit, that we are the children of God:","And if children, then heirs; heirs of God, and joint-heirs with Christ; if so be that we suffer with him, that we may be also glorified together.","For I reckon that the sufferings of this present time are not worthy to be compared with the glory which shall be revealed in us.","And we know that all things work together for good to them that love God, to them who are the called according to his purpose.","Nay, in all these things we are more than conquerors through him that loved us.","For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come,","Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord."],
-  "Matthew 1":["The book of the generation of Jesus Christ, the son of David, the son of Abraham.","Abraham begat Isaac; and Isaac begat Jacob; and Jacob begat Judas and his brethren;","And Judas begat Phares and Zara of Thamar; and Phares begat Esrom; and Esrom begat Aram;","And Aram begat Aminadab; and Aminadab begat Naasson; and Naasson begat Salmon;","And Salmon begat Booz of Rachab; and Booz begat Obed of Ruth; and Obed begat Jesse;","And Jesse begat David the king; and David the king begat Solomon of her that had been the wife of Urias;","And Jacob begat Joseph the husband of Mary, of whom was born Jesus, who is called Christ.","So all the generations from Abraham to David are fourteen generations; and from David until the carrying away into Babylon are fourteen generations; and from the carrying away into Babylon unto Christ are fourteen generations.","Now the birth of Jesus Christ was on this wise: When as his mother Mary was espoused to Joseph, before they came together, she was found with child of the Holy Ghost.","Then Joseph her husband, being a just man, and not willing to make her a publick example, was minded to put her away privily.","But while he thought on these things, behold, the angel of the Lord appeared unto him in a dream, saying, Joseph, thou son of David, fear not to take unto thee Mary thy wife: for that which is conceived in her is of the Holy Ghost.","And she shall bring forth a son, and thou shalt call his name JESUS: for he shall save his people from their sins.","Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being interpreted is, God with us.","Then Joseph being raised from sleep did as the angel of the Lord had bidden him, and took unto him his wife:","And knew her not till she had brought forth her firstborn son: and he called his name JESUS."],
-  "Ephesians 6":["Finally, my brethren, be strong in the Lord, and in the power of his might.","Put on the whole armour of God, that ye may be able to stand against the wiles of the devil.","For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places.","Wherefore take unto you the whole armour of God, that ye may be able to withstand in the evil day, and having done all, to stand.","Stand therefore, having your loins girt about with truth, and having on the breastplate of righteousness;","And your feet shod with the preparation of the gospel of peace;","Above all, taking the shield of faith, wherewith ye shall be able to quench all the fiery darts of the wicked.","And take the helmet of salvation, and the sword of the Spirit, which is the word of God:","Praying always with all prayer and supplication in the Spirit, and watching thereunto with all perseverance and supplication for all saints;"]
+
+// ══════════════════════════════════════════════════════
+//  BIBLE API ENGINE
+//  Source: bible-api.com (free, no key, CORS-enabled)
+//  Supports: KJV, NIV, ESV, NLT, ASV, WEB, YLT, DARBY
+// ══════════════════════════════════════════════════════
+
+// Translation code map: UI label → api param
+const TRANS_MAP = {
+  KJV:  'kjv',
+  NIV:  'NIV',
+  ESV:  'ESV',
+  NLT:  'NLT',
+  ASV:  'asv',
+  WEB:  'web',
 };
 
-function getVerses(book, ch) {
-  const k = `${book} ${ch}`;
-  if (KJV[k]) return KJV[k];
-  const n = Math.min(26, Math.max(8, Math.floor(Math.random()*16)+8));
-  return Array.from({length:n},(_,i)=>`[${book} ${ch}:${i+1}] — Connect to a Bible API to load the full King James Version text for this passage.`);
+// In-memory cache: "BookName|ch|trans" → verse array
+const VERSE_CACHE = {};
+
+// Current selected translation (defaults to KJV)
+let curTrans = localStorage.getItem('edd_trans') || 'KJV';
+
+// Book name → API-friendly slug (handles spaces and numbered books)
+function bookToSlug(name) {
+  return encodeURIComponent(name);
 }
+
+// Fetch a full chapter from bible-api.com
+async function fetchChapter(bookName, ch, trans) {
+  const cacheKey = `${bookName}|${ch}|${trans}`;
+  if (VERSE_CACHE[cacheKey]) return VERSE_CACHE[cacheKey];
+
+  const slug   = bookToSlug(bookName);
+  const apiTrans = TRANS_MAP[trans] || 'kjv';
+  const url = `https://bible-api.com/${slug}+${ch}?translation=${apiTrans}`;
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+
+    if (!json.verses || !json.verses.length) throw new Error('No verses returned');
+
+    const verses = json.verses.map(v => v.text.trim().replace(/\n/g, ' '));
+    VERSE_CACHE[cacheKey] = verses;
+    return verses;
+
+  } catch (err) {
+    console.warn(`Bible API error (${bookName} ${ch}):`, err.message);
+    return null; // signal failure
+  }
+}
+
+// Also fetch for search — returns verse objects {book, chapter, verse, text}
+async function fetchSearchResults(query, trans) {
+  // bible-api.com doesn't support full-text search
+  // Search is handled locally over cached + preloaded verses
+  return null;
+}
+
 
 // ── STATE ───────────────────────────────
 let curBook = null, curCh = 1;
@@ -2719,6 +2781,17 @@ async function boot() {
   setGreeting();
   buildBooks();
   buildHymnsPage();
+  // Restore saved translation
+  const savedTrans = localStorage.getItem('edd_trans') || 'KJV';
+  curTrans = savedTrans;
+  const sel = document.getElementById('transSelect');
+  if (sel) sel.value = savedTrans;
+
+  // Restore notification state and time picker
+  updateNotifBtn();
+  if (notifEnabled && Notification.permission === 'granted') {
+    scheduleDevotionalNotification();
+  }
 
   const d = new Date();
   document.getElementById('jDateLbl').textContent =
@@ -2813,26 +2886,58 @@ function selBook(name, chapters) {
 
 function selCh(ch) {
   curCh = ch;
+  const transLabel = document.getElementById('transSelect')?.value || curTrans;
+  const fullNames  = { KJV:'King James Version', NIV:'New International Version', ESV:'English Standard Version', NLT:'New Living Translation', ASV:'American Standard Version', WEB:'World English Bible' };
   document.getElementById('vTitle').textContent = `${curBook.name} ${ch}`;
-  document.getElementById('vSub').textContent = `King James Version · Chapter ${ch} of ${curBook.chapters}`;
-  document.getElementById('prevBtn').disabled = ch <= 1;
-  document.getElementById('nextBtn').disabled = ch >= curBook.chapters;
+  document.getElementById('vSub').textContent   = `${fullNames[transLabel] || transLabel} · Chapter ${ch} of ${curBook.chapters}`;
+  document.getElementById('prevBtn').disabled   = ch <= 1;
+  document.getElementById('nextBtn').disabled   = ch >= curBook.chapters;
   showBV('bv-verses');
   renderVerses();
 }
 
-function renderVerses() {
+async function renderVerses() {
   const ul = document.getElementById('vList');
+  // Show animated loader
   ul.innerHTML = '<div class="ld"><span></span><span></span><span></span></div>';
-  setTimeout(() => {
-    const vv = getVerses(curBook.name, curCh);
-    ul.innerHTML = vv.map((v,i) =>
-      `<li class="vi" onclick="this.classList.toggle('hl')"><span class="vnum">${i+1}</span><span class="vtxt">${v}</span></li>`
-    ).join('');
-  }, 300);
+
+  const trans  = document.getElementById('transSelect')?.value || curTrans;
+  const verses = await fetchChapter(curBook.name, curCh, trans);
+
+  if (!verses) {
+    ul.innerHTML = `<div style="text-align:center;padding:40px 20px">
+      <div style="font-size:1.5rem;margin-bottom:10px;opacity:0.4">📖</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--text-2);margin-bottom:8px">Could not load this chapter</div>
+      <div style="font-family:'Source Serif 4',serif;font-style:italic;font-size:0.85rem;color:var(--text-3);line-height:1.6">Check your internet connection<br>and try again</div>
+      <button onclick="renderVerses()" style="margin-top:16px;padding:9px 22px;border-radius:50px;border:1px solid var(--border);background:var(--surface);font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.08em;color:var(--text-2);cursor:pointer">
+        ↻ Retry
+      </button>
+    </div>`;
+    return;
+  }
+
+  // Store in search cache too
+  const cacheKey = `${curBook.name} ${curCh}`;
+  VERSE_CACHE[`${curBook.name}|${curCh}|${trans}`] = verses;
+
+  ul.innerHTML = verses.map((v, i) =>
+    `<li class="vi" onclick="this.classList.toggle('hl')">
+      <span class="vnum">${i + 1}</span>
+      <span class="vtxt">${v}</span>
+    </li>`
+  ).join('');
 }
 
 function navCh(d) { const n = curCh + d; if (n >= 1 && n <= curBook.chapters) selCh(n); }
+
+function onTransChange(val) {
+  curTrans = val;
+  localStorage.setItem('edd_trans', val);
+  // If a chapter is already open, reload it in the new translation
+  if (curBook && document.getElementById('bv-verses').classList.contains('show')) {
+    renderVerses();
+  }
+}
 
 function showBV(id) {
   document.querySelectorAll('.bv').forEach(v => v.classList.remove('show'));
@@ -2937,12 +3042,8 @@ function openRead(bookName, ch) {
   curBook = {name: book.n, chapters: book.c};
   curCh = ch;
   nav('bible');
-  document.getElementById('vTitle').textContent = `${bookName} ${ch}`;
-  document.getElementById('vSub').textContent = `King James Version · Chapter ${ch} of ${book.c}`;
-  document.getElementById('prevBtn').disabled = ch <= 1;
-  document.getElementById('nextBtn').disabled = ch >= book.c;
   showBV('bv-verses');
-  renderVerses();
+  selCh(ch); // selCh handles title, sub, disabled state, and renderVerses
 }
 
 // ── TOAST ────────────────────────────────
@@ -3845,30 +3946,32 @@ function doSearch(query) {
   const books = searchFilter === 'nt' ? NT : searchFilter === 'ot' ? OT : [...OT, ...NT];
   const results = [];
 
-  // Search KJV verses we have cached
-  for (const [key, verses] of Object.entries(KJV)) {
-    const [bookName] = key.split(' ');
-    // Check if this book is in the filtered set
-    const inFilter = books.some(b => key.startsWith(b.n));
+  // Search all cached chapters (grows as user browses)
+  for (const [cacheKey, verses] of Object.entries(VERSE_CACHE)) {
+    const [bookName, chStr] = cacheKey.split('|');
+    const chNum = parseInt(chStr);
+    const inFilter = books.some(b => b.n === bookName);
     if (!inFilter) continue;
     verses.forEach((v, i) => {
       if (v.toLowerCase().includes(q)) {
-        // Extract book name by removing the last token (chapter number)
-        const parts = key.split(' ');
-        const bookName = parts.slice(0, -1).join(' ');
-        const chNum = parseInt(parts[parts.length - 1]);
-        results.push({ ref: `${key}:${i+1}`, book: bookName, ch: chNum, verse: i+1, text: v });
+        results.push({ ref: `${bookName} ${chNum}:${i+1}`, book: bookName, ch: chNum, verse: i+1, text: v });
       }
     });
   }
 
   const container = document.getElementById('searchResults');
   if (!results.length) {
+    const cachedCount = Object.keys(VERSE_CACHE).length;
     container.innerHTML = `
       <div class="search-empty">
         <div class="se-icon">✦</div>
         <div class="se-title">No results found</div>
-        <div class="se-sub">Try a different word or phrase.<br>More verses load when you browse the Bible.</div>
+        <div class="se-sub">
+          ${cachedCount === 0
+            ? 'Browse the Bible first — searched chapters are automatically<br>indexed for searching as you read.'
+            : `Searched ${cachedCount} cached chapter${cachedCount !== 1 ? 's' : ''}.<br>Browse more of the Bible to expand your search index.`
+          }
+        </div>
       </div>`;
     return;
   }
@@ -3903,11 +4006,7 @@ function openVerseFromSearch(bookName, ch, verse) {
   curCh = ch;
   nav('bible');
   showBV('bv-verses');
-  document.getElementById('vTitle').textContent = `${bookName} ${ch}`;
-  document.getElementById('vSub').textContent = `King James Version · Chapter ${ch} of ${book.c}`;
-  document.getElementById('prevBtn').disabled = ch <= 1;
-  document.getElementById('nextBtn').disabled = ch >= book.c;
-  renderVerses();
+  selCh(ch);
 }
 
 // ══════════════════════════════════════════════════════
@@ -3987,8 +4086,18 @@ let notifEnabled = localStorage.getItem('edd_notif') === 'true';
 
 function updateNotifBtn() {
   const btn = document.getElementById('notifBtn');
-  if (!btn) return;
-  btn.classList.toggle('on', notifEnabled);
+  if (btn) btn.classList.toggle('on', notifEnabled);
+
+  // Show dot on bell icon in header
+  const dot = document.getElementById('smNotifDot');
+  if (dot) dot.style.background = notifEnabled ? 'var(--accent)' : '';
+
+  // Show/hide time picker row in side menu
+  const timeRow = document.getElementById('smTimeRow');
+  if (timeRow) timeRow.style.display = notifEnabled ? 'flex' : 'none';
+
+  // Update sub-label
+  updateNotifTimeDisplay();
 }
 
 async function toggleNotifications() {
@@ -4015,11 +4124,12 @@ async function toggleNotifications() {
     localStorage.setItem('edd_notif', 'true');
     updateNotifBtn();
     scheduleDevotionalNotification();
-    toast('✦ Daily devotional notifications enabled!');
     updateMenuState();
+    const t = getNotifTime();
+    toast('✦ Notifications set for ' + t.label + ' daily!');
     // Show a welcome notification immediately
     new Notification('Excellent Day Devotional', {
-      body: 'You will receive your daily devotional at 7:00 AM 🙏',
+      body: 'You will receive your daily devotional at ' + t.label + ' 🙏',
       icon: 'icons/icon-192.png',
       badge: 'icons/icon-72.png'
     });
@@ -4028,29 +4138,64 @@ async function toggleNotifications() {
   }
 }
 
+// ── NOTIFICATION TIME HELPERS ──────────────────────────
+// Default: 5:30 AM. User can change via the time picker in settings.
+const NOTIF_DEFAULT = '05:30';
+
+function getNotifTime() {
+  const saved = localStorage.getItem('edd_notif_time') || NOTIF_DEFAULT;
+  const [h, m] = saved.split(':').map(Number);
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  return { hour: h, min: m, label: h12 + ':' + String(m).padStart(2,'0') + ' ' + suffix };
+}
+
+function setNotifTime(val) {
+  localStorage.setItem('edd_notif_time', val);
+  // Reschedule if active
+  if (notifEnabled && Notification.permission === 'granted') {
+    clearTimeout(window._notifTimer);
+    scheduleDevotionalNotification();
+    const t = getNotifTime();
+    toast('✦ Notification time updated to ' + t.label);
+  }
+  updateNotifTimeDisplay();
+}
+
+function updateNotifTimeDisplay() {
+  const t = getNotifTime();
+  const sub = document.getElementById('smNotifSub');
+  if (sub) sub.textContent = t.label + ' devotional reminder';
+  const picker = document.getElementById('notifTimePicker');
+  if (picker) {
+    const h = String(getNotifTime().hour).padStart(2,'0');
+    const m = String(getNotifTime().min).padStart(2,'0');
+    picker.value = h + ':' + m;
+  }
+}
+
 function scheduleDevotionalNotification() {
   if (!notifEnabled || Notification.permission !== 'granted') return;
 
-  // Calculate ms until 7:00 AM tomorrow
+  const t   = getNotifTime();
   const now = new Date();
-  const next7am = new Date();
-  next7am.setHours(7, 0, 0, 0);
-  if (now >= next7am) next7am.setDate(next7am.getDate() + 1);
-  const msUntil7am = next7am - now;
+  const next = new Date();
+  next.setHours(t.hour, t.min, 0, 0);
+  if (now >= next) next.setDate(next.getDate() + 1); // tomorrow if already past
+  const msUntil = next - now;
 
-  setTimeout(() => {
+  clearTimeout(window._notifTimer);
+  window._notifTimer = setTimeout(() => {
     if (Notification.permission === 'granted' && notifEnabled) {
-      new Notification('Good Morning — Excellent Day Devotional', {
-        body: 'Your daily devotional is ready. His mercies are new every morning 🙏',
+      new Notification('✦ Excellent Day', {
+        body: 'Your daily devotional is ready. Begin your morning with His Word 🙏',
         icon: 'icons/icon-192.png',
-        badge: 'icons/icon-72.png',
-        tag: 'daily-devotional',
-        renotify: true
+        badge: 'icons/icon-72.png'
       });
-      // Schedule the next one
+      // Reschedule for the next day
       scheduleDevotionalNotification();
     }
-  }, msUntil7am);
+  }, msUntil);
 }
 
 // Re-schedule on DOMContentLoaded (avoids duplicate 'load' listener)
