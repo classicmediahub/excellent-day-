@@ -9,7 +9,11 @@
   "theme_color": "#2A3B30",
   "lang": "en",
   "scope": "/",
-  "categories": ["lifestyle", "education", "books"],
+  "categories": [
+    "lifestyle",
+    "education",
+    "books"
+  ],
   "icons": [
     {
       "src": "icons/icon-72.png",
@@ -81,14 +85,24 @@
       "short_name": "Bible",
       "description": "Open the Bible reader",
       "url": "/index.html#bible",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Write in Journal",
       "short_name": "Journal",
       "description": "Open your devotional journal",
       "url": "/index.html#journal",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
